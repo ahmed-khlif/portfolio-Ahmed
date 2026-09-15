@@ -95,7 +95,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
                 title="Spotify playlist"
                 src="https://open.spotify.com/embed/playlist/5HEFQpaI5smcqLBYJhq4pv?utm_source=generator"
                 width="100%"
-                height="152"
+                height="100"
                 loading="lazy"
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 className="w-full rounded-xl border border-border"
