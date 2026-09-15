@@ -21,9 +21,6 @@ export function ScrollControls() {
       <Button variant="outline" size="icon" className="size-11 rounded-full border-border/70 bg-background/90 shadow-xl shadow-foreground/10 backdrop-blur transition-colors hover:bg-foreground hover:text-background" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Back to top" title="Back to top">
         <Icons.arrowUp className="size-4" />
       </Button>
-      <Button variant="outline" size="icon" className="size-11 rounded-full border-border/70 bg-background/90 shadow-xl shadow-foreground/10 backdrop-blur transition-colors hover:bg-foreground hover:text-background" onClick={() => window.scrollBy({ top: window.innerHeight * 0.8, behavior: "smooth" })} aria-label="Scroll down" title="Scroll down">
-        <Icons.arrowDown className="size-4" />
-      </Button>
     </div>
   );
 }
