@@ -87,6 +87,20 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
                 {siteConfig.location}
               </li>
             </ul>
+            <div className="pt-4">
+              <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                What I&apos;m listening to
+              </p>
+              <iframe
+                title="Spotify playlist"
+                src="https://open.spotify.com/embed/playlist/5HEFQpaI5smcqLBYJhq4pv?utm_source=generator"
+                width="100%"
+                height="100"
+                loading="lazy"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                className="w-full rounded-xl border border-border"
+              />
+            </div>
           </div>
         </div>
 

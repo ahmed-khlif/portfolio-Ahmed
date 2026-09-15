@@ -2,7 +2,6 @@ import Link from "next/link";
 import * as React from "react";
 
 import { siteConfig } from "@/config/site";
-import { useLockBody } from "@/hooks/use-lock-body";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
@@ -12,7 +11,6 @@ interface MobileNavProps {
 }
 
 export function MobileNav({ items, children }: MobileNavProps) {
-  useLockBody();
   const pathname = usePathname();
 
   return (
@@ -20,11 +18,9 @@ export function MobileNav({ items, children }: MobileNavProps) {
       id="mobile-navigation"
       role="dialog"
       aria-label="Mobile navigation"
-      className={cn(
-        "fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto bg-black/30 p-4 pb-32 shadow-md backdrop-blur-sm md:hidden"
-      )}
+      className="absolute right-0 top-[calc(100%+0.75rem)] z-50 w-[min(calc(100vw-2rem),24rem)] md:hidden"
     >
-      <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
+      <div className="grid max-h-[calc(100vh-6rem)] gap-4 overflow-y-auto rounded-2xl border border-border/70 bg-popover p-4 text-popover-foreground shadow-xl shadow-black/10">
         <Link href="/" className="flex items-center space-x-2">
           <span className="font-heading text-2xl font-semibold tracking-tight">
             {siteConfig.authorName}
