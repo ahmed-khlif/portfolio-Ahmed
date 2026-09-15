@@ -289,7 +289,7 @@ export default function IndexPage() {
               </a>
             </p>
           </div>
-          <div className="w-full max-w-md md:justify-self-end">
+          <div className="w-full max-w-sm md:justify-self-end">
             <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
               What I&apos;m listening to
             </p>
@@ -297,7 +297,7 @@ export default function IndexPage() {
               title="Spotify playlist"
               src="https://open.spotify.com/embed/playlist/5HEFQpaI5smcqLBYJhq4pv?utm_source=generator"
               width="100%"
-              height="352"
+              height="152"
               loading="lazy"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               className="rounded-xl border border-border"
