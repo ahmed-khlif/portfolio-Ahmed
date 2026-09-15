@@ -49,17 +49,6 @@ function SectionHeading({
   );
 }
 
-/**
- * Real, verifiable outcomes from the projects below — not rounded marketing
- * numbers. Each one is traceable to a case study.
- */
-const highlights = [
-  { value: "94.23%", label: "code coverage on a 626-test end-to-end suite" },
-  { value: "98.7%", label: "production uptime across a 4-month run" },
-  { value: "78%", label: "of support queries resolved autonomously by AI" },
-  { value: "12", label: "access-control roles modelled and enforced" },
-];
-
 const focusAreas = [
   "Full-stack delivery",
   "Applied AI systems",
@@ -174,21 +163,6 @@ export default function IndexPage() {
           </a>
         </div>
       </section>
-
-      <AnimatedSection className="border-b border-border py-14 sm:py-16" direction="up">
-        <dl className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {highlights.map((highlight) => (
-            <div key={highlight.value} className="border-l border-border pl-5">
-              <dt className="font-heading text-4xl font-medium tracking-[-0.05em] text-foreground sm:text-5xl">
-                {highlight.value}
-              </dt>
-              <dd className="mt-3 max-w-[16rem] text-sm leading-6 text-muted-foreground">
-                {highlight.label}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </AnimatedSection>
 
 <AnimatedSection id="work" className="space-y-10 py-20 sm:py-28" direction="up">
         <SectionHeading number="01" title="Selected work" description="Platforms, products and tools — with the outcomes written down rather than implied." />
