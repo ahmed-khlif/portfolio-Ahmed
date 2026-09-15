@@ -1,6 +1,3 @@
-"use client";
-
-
 import {
   Activity,
   AlertTriangle,
@@ -61,7 +58,7 @@ import {
   SiAngular,
   SiBootstrap,
   SiC,
-  SiCss3,
+  SiCss,
   SiDart,
   SiDocker,
   SiDotnet,
@@ -148,7 +145,7 @@ export const Icons = {
   amazonaws: FaAws,
   angular: SiAngular,
   bootstrap: SiBootstrap,
-  css3: SiCss3,
+  css3: SiCss,
   express: SiExpress,
   graphql: SiGraphql,
   html5: SiHtml5,
