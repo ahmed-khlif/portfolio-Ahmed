@@ -1,8 +1,7 @@
 import "./globals.css";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { Inter as FontSans } from "next/font/google";
-import localFont from "next/font/local";
+import { Inter as FontSans, Plus_Jakarta_Sans as FontHeading } from "next/font/google";
 
 import { Analytics } from "@/components/common/analytics";
 import { ThemeProvider } from "@/components/common/theme-provider";
@@ -16,10 +15,10 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
-// Font files can be colocated inside of `pages`
-const fontHeading = localFont({
-  src: "../assets/fonts/CalSans-SemiBold.woff2",
+const fontHeading = FontHeading({
+  subsets: ["latin"],
   variable: "--font-heading",
+  display: "swap",
 });
 
 interface RootLayoutProps {
