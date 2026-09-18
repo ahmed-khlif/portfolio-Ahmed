@@ -1,6 +1,7 @@
 import "./globals.css";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
+import type { Viewport } from "next";
 import { Inter as FontSans, Plus_Jakarta_Sans as FontHeading } from "next/font/google";
 
 import { Analytics } from "@/components/common/analytics";
@@ -24,6 +25,13 @@ const fontHeading = FontHeading({
 interface RootLayoutProps {
   children: React.ReactNode;
 }
+
+export const viewport: Viewport = {
+  themeColor: "#f7f7f5",
+  colorScheme: "light dark",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata = {
   metadataBase: new URL(siteConfig.url),

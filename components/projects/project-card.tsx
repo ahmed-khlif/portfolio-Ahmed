@@ -23,7 +23,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.45, ease: "easeOut" }}
       whileHover={prefersReducedMotion ? undefined : { y: -5 }}
-      className="group relative flex h-full w-full flex-col overflow-hidden border border-border/70 bg-card transition-all duration-500 ease-out hover:-translate-y-1 hover:border-foreground/30 hover:shadow-[0_18px_45px_-28px_hsl(var(--foreground)/0.45)] focus-within:border-foreground/40 focus-within:shadow-[0_18px_45px_-28px_hsl(var(--foreground)/0.45)]"
+      className="group relative flex h-full w-full flex-col overflow-hidden border border-border/70 bg-card transition-all duration-500 ease-out hover:-translate-y-1 hover:border-foreground/30 hover:shadow-[0_18px_45px_-28px_hsl(var(--foreground)/0.45)] focus-within:border-foreground/40 focus-within:shadow-[0_18px_45px_-28px_hsl(var(--foreground)/0.45)]" aria-label={`${project.companyName} case study`}
     >
       <div className="relative h-[220px] w-full flex-shrink-0 overflow-hidden border-b border-border/70 bg-muted">
         <motion.div
@@ -48,12 +48,17 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <p className="line-clamp-3 flex-grow text-sm leading-7 text-muted-foreground">
           {project.shortDescription}
         </p>
-        <div className="flex gap-2 flex-wrap">
+        {project.metrics?.[0] ? (
+          <p className="border-l-2 border-foreground/20 pl-3 text-xs font-medium leading-5 text-foreground">
+            {project.metrics[0]}
+          </p>
+        ) : null}
+        <div className="flex flex-wrap gap-2">
           <ChipContainer textArr={project.category} />
         </div>
           <Link href={`/projects/${project.id}`} className="mt-auto inline-flex min-h-11 items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
-          <span className="mt-2 inline-flex items-center gap-2 border-t border-border pt-3 text-xs font-medium uppercase tracking-[0.12em] transition-all group-hover:gap-3">
-            Explore project <Icons.chevronRight className="size-4" />
+          <span className="mt-2 inline-flex w-full items-center justify-between gap-2 border-t border-border pt-3 text-xs font-medium uppercase tracking-[0.12em] transition-all group-hover:gap-3">
+            Explore case study <Icons.chevronRight className="size-4" />
           </span>
         </Link>
       </div>
