@@ -99,7 +99,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
                   height="100"
                   loading="lazy"
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  className="block w-full border-0"
+                    className="block w-full border-0"
                 />
               </div>
             </div>

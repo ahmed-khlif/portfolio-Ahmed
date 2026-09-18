@@ -122,6 +122,9 @@ export default function IndexPage() {
               <Link href="/contact" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-12 rounded-none px-6")}>
                 Start a conversation <Icons.arrowRight className="ml-2 h-4 w-4" />
               </Link>
+              <Link href="#work" className="inline-flex h-12 items-center justify-center rounded-none border border-transparent px-2 text-sm font-medium text-muted-foreground underline decoration-border underline-offset-8 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4">
+                See selected work
+              </Link>
               <ShareProfileButton />
             </AnimatedText>
           </div>
@@ -166,7 +169,7 @@ export default function IndexPage() {
 
 <AnimatedSection id="work" className="space-y-10 py-20 sm:py-28" direction="up">
         <SectionHeading number="01" title="Selected work" description="Platforms, products and tools — with the outcomes written down rather than implied." />
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
           {featuredProjects.map((project, index) => (
             <AnimatedSection key={project.id} delay={index * 0.08} direction="up">
               <ProjectCard project={project} />
