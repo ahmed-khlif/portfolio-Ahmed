@@ -219,6 +219,7 @@ export async function POST(request: Request) {
 
     const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
     if (!apiKey) {
+      console.error("[assistant] Gemini API key is missing in the server environment");
       return NextResponse.json({ message: fallbackReply(latestUserMessage.content), source: "fallback" });
     }
 
@@ -253,23 +254,37 @@ export async function POST(request: Request) {
     if (!response.ok) {
       const providerError = await response.text();
       console.error("[assistant] Gemini request failed", response.status, providerError.slice(0, 600));
-      return NextResponse.json({ message: fallbackReply(latestUserMessage.content), source: "fallback" });
+      return NextResponse.json({
+        message: fallbackReply(latestUserMessage.content),
+        source: "fallback",
+        reason: `gemini-http-${response.status}`,
+      });
     }
 
     const data = (await response.json()) as {
       candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      promptFeedback?: unknown;
     };
     const message = data.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("").trim();
+
+    if (!message) {
+      console.error(
+        "[assistant] Gemini returned no text",
+        JSON.stringify({ candidateCount: data.candidates?.length ?? 0, promptFeedback: data.promptFeedback }),
+      );
+    }
 
     return NextResponse.json({
       message: message || fallbackReply(latestUserMessage.content),
       source: message ? "gemini" : "fallback",
+      ...(message ? {} : { reason: "gemini-empty-response" }),
     });
   } catch (error) {
     console.error("[assistant] Gemini request error", error);
     return NextResponse.json({
       message: "The assistant is taking a short break. You can still reach Ahmed directly through the contact page.",
       source: "fallback",
+      reason: "gemini-request-error",
     });
   }
 }
