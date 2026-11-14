@@ -151,6 +151,50 @@ ${buildPortfolioContext()}`;
 
 function fallbackReply(question: string) {
   const normalized = question.toLowerCase().normalize("NFKC").replace(/\s+/g, " ");
+  const isArabizi = /(belahi|a7ki|ahki|chnowa|chneya|kifeh|najem|mta3|mte3|akher|a5er|khedma|5edma|a3mel|a3mal|maharat|ta3raf|t3aref)/i.test(normalized);
+  const projectsByLatest = [...Projects].sort(
+    (first, second) => second.endDate.getTime() - first.endDate.getTime(),
+  );
+  const latestProject = projectsByLatest[0];
+  const requestedProject = Projects.find((project) => {
+    const projectName = project.companyName.toLowerCase();
+    const projectId = project.id.replace(/-/g, " ");
+    return normalized.includes(projectName) || normalized.includes(projectId);
+  });
+  const projectReply = (project: (typeof Projects)[number]) =>
+    `Ey, ${project.companyName} howa project. ${project.shortDescription} Stack: ${project.techStack.slice(0, 6).join(", ")}. Case study: https://ahmedkhlif.me/projects/${project.id}${project.githubLink ? ` | GitHub: ${project.githubLink}` : ""}`;
+
+  if (isArabizi && /(akher|a5er|latest|recent|jdid)/i.test(normalized) && /(khedma|5edma|work|project|a3mel|a3mal)/i.test(normalized)) {
+    return projectReply(latestProject);
+  }
+
+  if (isArabizi && requestedProject) {
+    return projectReply(requestedProject);
+  }
+
+  if (isArabizi && /(salary|pay|rate|cost|prix|salaire|compensation|khlas|flous)/i.test(normalized)) {
+    return "Ahmed ma 3andouch tarif fixe mouchour. El montant yetbadel 7asb el role, scope w naw3 el collaboration. Tnajem tetwassel bih men page Contact.";
+  }
+
+  if (isArabizi && /(phone|number|call|tel|telephone|whatsapp|contact|reach|email|hire|available|availability|freelance|work together|nwasel|ncontact|numero)/i.test(normalized)) {
+    return `Ey, Ahmed maftou7 l full-time roles, freelance missions w AI collaborations. Tnajem t3ayetlou ${siteConfig.phone}, WhatsApp: ${siteConfig.whatsapp}, wala email: ${siteConfig.email}.`;
+  }
+
+  if (isArabizi && /(skill|stack|technology|tech|know|good at|expert|maharat|ta3raf|t3aref|a9wa)/i.test(normalized)) {
+    return "A9wa skills mta3 Ahmed houma Full-stack TypeScript (React, Next.js, NestJS), Python w Applied AI, PostgreSQL, w DevOps avec Docker w CI/CD.";
+  }
+
+  if (isArabizi && /(experience|career|background|education|study|degree|khedma|5edma|parcours|9ra)/i.test(normalized)) {
+    return "Ahmed howa Full-stack Developer w AI Engineer men Sfax. 3andou experience fi freelance products w software-engineering internships, m3a formation engineering w professional Master's.";
+  }
+
+  if (isArabizi && /(project|build|work|portfolio|khedma|5edma|a3mel|a3mal|a5er|akher)/i.test(normalized)) {
+    return `Ahmed yebni production systems: event platforms, BI dashboards, industrial traceability, AI assistants w developer tools. A5er project howa ${latestProject.companyName}: https://ahmedkhlif.me/projects/${latestProject.id}`;
+  }
+
+  if (isArabizi) {
+    return "Ey, najem n3awnek fi skills, projects, experience, availability, education wala contact mta3 Ahmed. Jareb ekteb: a7ki 3la a5er project wala kifeh ncontacti Ahmed.";
+  }
 
   if (
     /(a7ki|ahki|fasser|chra7|talk|tell|describe)/i.test(normalized) &&
