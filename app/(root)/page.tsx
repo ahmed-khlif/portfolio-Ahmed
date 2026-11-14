@@ -61,42 +61,6 @@ const spokenLanguages = [
   { name: "French", level: "Proficient" },
 ];
 
-function ProfileSignal() {
-  return (
-    <div className="relative mt-5 overflow-hidden border border-foreground/15 bg-foreground text-background shadow-xl shadow-foreground/10">
-      <div className="absolute -right-12 -top-12 size-32 rounded-full border border-background/15" aria-hidden="true" />
-      <div className="absolute -bottom-16 -left-10 size-32 rounded-full border border-background/10" aria-hidden="true" />
-      <div className="relative space-y-5 p-5 sm:p-6">
-        <div className="flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.18em] text-background/60">
-          <span>Profile signal / 01</span>
-          <span className="inline-flex items-center gap-2 text-background/90">
-            <span className="size-1.5 rounded-full bg-emerald-400 motion-safe:animate-pulse" aria-hidden="true" />
-            Open
-          </span>
-        </div>
-        <p className="max-w-[17rem] font-heading text-2xl leading-[1.05] tracking-[-0.04em]">
-          Products that ship with a point of view.
-        </p>
-        <div className="grid grid-cols-2 gap-px border border-background/15 bg-background/15">
-          <div className="bg-foreground/95 p-3">
-            <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-background/55">Focus</p>
-            <p className="mt-1 text-xs text-background/90">Full-stack + AI</p>
-          </div>
-          <div className="bg-foreground/95 p-3">
-            <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-background/55">Base</p>
-            <p className="mt-1 text-xs text-background/90">{siteConfig.location}</p>
-          </div>
-        </div>
-        <p className="max-w-[17rem] text-xs leading-5 text-background/65">{siteConfig.availability}</p>
-        <div className="flex items-center justify-between border-t border-background/15 pt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-background/60">
-          <span>AK / 26</span>
-          <span>Build with intent</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function IndexPage() {
   const personSchema = {
     "@context": "https://schema.org",
@@ -135,11 +99,6 @@ export default function IndexPage() {
       />
 
       <section className="relative isolate overflow-hidden border-b border-border py-16 sm:py-24 lg:min-h-[calc(100vh-4rem)] lg:py-24">
-        <div className="pointer-events-none absolute right-[12%] top-16 -z-10 hidden size-56 rounded-full border border-border/60 opacity-60 motion-safe:animate-[spin_24s_linear_infinite] lg:block" aria-hidden="true" />
-        <div className="pointer-events-none absolute right-[18%] top-24 -z-10 hidden size-3 rounded-full bg-foreground motion-safe:animate-pulse lg:block" aria-hidden="true" />
-        <div className="pointer-events-none absolute right-[28%] top-28 z-10 hidden rounded-full border border-border/80 bg-background/80 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground shadow-sm backdrop-blur-sm motion-safe:animate-[hero-float_6s_ease-in-out_infinite] lg:block" aria-hidden="true">full-stack + AI</div>
-        <div className="pointer-events-none absolute right-[5%] top-[52%] z-10 hidden rounded-full border border-border/80 bg-background/80 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground shadow-sm backdrop-blur-sm motion-safe:animate-[hero-float-reverse_7s_ease-in-out_infinite] lg:block" aria-hidden="true">ship reliably</div>
-
         <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-20">
           <div className="max-w-4xl">
             <AnimatedText as="p" className="mb-6 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
@@ -176,7 +135,14 @@ export default function IndexPage() {
                 sizes="(min-width: 1024px) 20rem, 90vw"
               />
             </div>
-            <ProfileSignal />
+            <div className="mt-4 flex items-start justify-between gap-4 text-xs text-muted-foreground">
+              <span>Currently</span>
+              <span className="max-w-[10rem] text-right text-foreground">{siteConfig.availability}</span>
+            </div>
+            <div className="mt-3 flex items-start justify-between gap-4 text-xs text-muted-foreground">
+              <span>Based in</span>
+              <span className="text-right text-foreground">{siteConfig.location} · {siteConfig.timezone}</span>
+            </div>
           </AnimatedSection>
         </div>
 

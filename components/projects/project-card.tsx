@@ -38,14 +38,6 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           fill
           sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
         />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-4 pt-14 opacity-100 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
-          <div className="flex items-end justify-between gap-3 text-white">
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/75">
-              {project.techStack.slice(0, 3).join(" / ")}
-            </span>
-            <Icons.arrowUpRight className="size-4 shrink-0" aria-hidden="true" />
-          </div>
-        </div>
         </motion.div>
       </div>
       <div className="flex flex-grow flex-col space-y-4 p-6 sm:p-7">
