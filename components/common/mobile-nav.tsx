@@ -20,7 +20,7 @@ export function MobileNav({ items, children, onClose }: MobileNavProps) {
       <button
         type="button"
         aria-label="Close navigation menu"
-        className="fixed inset-0 z-40 bg-foreground/5 backdrop-blur-[2px] md:hidden"
+        className="fixed inset-0 z-[55] bg-foreground/5 backdrop-blur-[2px] md:hidden"
         onClick={onClose}
       />
       <div
@@ -28,9 +28,9 @@ export function MobileNav({ items, children, onClose }: MobileNavProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Mobile navigation"
-        className="absolute right-0 top-[calc(100%+0.75rem)] z-50 w-[min(calc(100vw-2rem),24rem)] md:hidden"
+        className="fixed inset-x-3 top-[calc(4rem+0.75rem+env(safe-area-inset-top))] z-[60] md:hidden"
       >
-        <div className="grid max-h-[calc(100dvh-6rem)] gap-4 overflow-y-auto rounded-2xl border border-border/70 bg-popover p-4 text-popover-foreground shadow-2xl shadow-foreground/15">
+        <div className="mx-auto grid max-h-[calc(100dvh-6.5rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-sm gap-4 overflow-y-auto overscroll-contain rounded-2xl border border-border/70 bg-popover p-4 text-popover-foreground shadow-2xl shadow-foreground/15">
           <Link href="/" onClick={onClose} className="flex items-center gap-3">
             <Image
               src={siteConfig.logoIcon}
