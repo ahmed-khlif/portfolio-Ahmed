@@ -120,7 +120,9 @@ function cleanMessages(value: unknown): AssistantMessage[] {
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as { messages?: unknown };
-    const messages = cleanMessages(body.messages);
+    const cleanedMessages = cleanMessages(body.messages);
+    // The UI welcome bubble is presentation-only; Gemini conversations must begin with a user turn.
+    const messages = cleanedMessages[0]?.role === "assistant" ? cleanedMessages.slice(1) : cleanedMessages;
     const latestUserMessage = [...messages].reverse().find((message) => message.role === "user");
 
     if (!latestUserMessage) {

@@ -79,7 +79,9 @@ export function PortfolioAssistant() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: nextMessages.map(({ role, content: messageContent }) => ({ role, content: messageContent })),
+          messages: nextMessages
+            .filter((message) => message.id !== "welcome")
+            .map(({ role, content: messageContent }) => ({ role, content: messageContent })),
         }),
       });
       const data = (await response.json()) as { message?: string; error?: string };
