@@ -14,7 +14,8 @@ export const siteConfig = {
   location: "Sfax, Tunisia",
   timezone: "GMT+1",
   availability: "Open to full-time roles, freelance missions and AI collaborations",
-  resume: "/CV_Ahmed_Khlif.pdf",
+  // Version the public asset URL so CDN/browser caches do not keep serving an older CV.
+  resume: "/CV_Ahmed_Khlif.pdf?v=20261114",
   links: {
     github: "https://github.com/ahmed-khlif",
     linkedin: "https://www.linkedin.com/in/ahmed-khlif",

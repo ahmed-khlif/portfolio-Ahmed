@@ -2,10 +2,7 @@ import { redirect } from "next/navigation";
 
 import { siteConfig } from "@/config/site";
 
-/**
- * /resume redirects to the CV. `NEXT_PUBLIC_RESUME_LINK` stays supported so
- * the CV can be swapped (Drive, Notion, an external host) without a deploy.
- */
+/** Always serve the versioned CV committed in this portfolio repository. */
 export default function ResumePage() {
-  redirect(process.env.NEXT_PUBLIC_RESUME_LINK || siteConfig.resume);
+  redirect(siteConfig.resume);
 }
