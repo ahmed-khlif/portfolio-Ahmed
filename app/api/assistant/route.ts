@@ -226,7 +226,7 @@ export async function POST(request: Request) {
           })),
           generationConfig: {
             temperature: 0.35,
-            maxOutputTokens: 320,
+            maxOutputTokens: 560,
           },
         }),
         cache: "no-store",

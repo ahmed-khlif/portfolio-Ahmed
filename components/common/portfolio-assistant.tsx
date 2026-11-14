@@ -146,7 +146,7 @@ export function PortfolioAssistant() {
                 ) : null}
                 <p
                   className={cn(
-                    "max-w-[86%] rounded-2xl px-3.5 py-2.5 text-sm leading-6",
+                    "max-w-[86%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-6",
                     message.role === "assistant"
                       ? "rounded-tl-md bg-muted text-foreground"
                       : "rounded-tr-md bg-foreground text-background",
