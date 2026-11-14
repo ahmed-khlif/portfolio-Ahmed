@@ -80,8 +80,8 @@ export const metadata = {
   },
   icons: {
     icon: siteConfig.iconIco,
-    shortcut: siteConfig.logoIcon,
-    apple: siteConfig.logoIcon,
+    shortcut: siteConfig.iconIco,
+    apple: "/apple-icon.png",
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
   alternates: {

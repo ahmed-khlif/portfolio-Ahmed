@@ -22,7 +22,7 @@ export const siteConfig = {
     templateRepo: "https://github.com/ahmed-khlif",
   },
   ogImage: "https://ahmedkhlif.me/og-image.png",
-  iconIco: "/profile-img.jpg",
+  iconIco: "/icon.png",
   logoIcon: "/profile-img.jpg",
   keywords: [
     "Ahmed Khlif",

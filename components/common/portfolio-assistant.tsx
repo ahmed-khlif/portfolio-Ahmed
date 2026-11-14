@@ -238,15 +238,23 @@ export function PortfolioAssistant() {
   };
 
   return (
-    <div ref={panelRef} className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-4 z-[70] sm:right-6">
+    <div
+      ref={panelRef}
+      className={cn(
+        "fixed z-[70]",
+        open
+          ? "inset-x-2 bottom-2 sm:inset-x-auto sm:bottom-[calc(1.25rem+env(safe-area-inset-bottom))] sm:right-6"
+          : "bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-4 sm:right-6",
+      )}
+    >
       {open ? (
         <section
           role="dialog"
           aria-modal="false"
           aria-label="Ask about Ahmed"
-          className="mb-3 flex w-[min(390px,calc(100vw-2rem))] flex-col overflow-hidden rounded-3xl border border-border/80 bg-background/95 shadow-2xl shadow-foreground/15 backdrop-blur-xl sm:mb-4"
+          className="mb-2 flex h-[min(620px,calc(100dvh-1.5rem))] w-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-background/95 shadow-2xl shadow-foreground/15 backdrop-blur-xl sm:mb-4 sm:h-auto sm:w-[min(390px,calc(100vw-2rem))] sm:rounded-3xl"
         >
-          <div className="flex items-start justify-between gap-3 border-b border-border/70 bg-muted/45 px-4 py-4 sm:px-5">
+          <div className="flex shrink-0 items-start justify-between gap-3 border-b border-border/70 bg-muted/45 px-3.5 py-3.5 sm:px-5 sm:py-4">
             <div className="flex min-w-0 items-center gap-3">
               <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-foreground text-background shadow-sm">
                 <Sparkles className="size-4" aria-hidden="true" />
@@ -268,7 +276,7 @@ export function PortfolioAssistant() {
             </button>
           </div>
 
-          <div className="max-h-[min(430px,calc(100dvh-18rem))] min-h-48 space-y-3 overflow-y-auto px-3 py-4 sm:px-4" aria-live="polite">
+          <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain px-3 py-4 sm:max-h-[min(430px,calc(100dvh-18rem))] sm:min-h-48 sm:flex-none sm:px-4" aria-live="polite">
             {messages.map((message) => (
               <div key={message.id} className={cn("flex gap-2.5", message.role === "user" && "justify-end")}>
                 {message.role === "assistant" ? (
@@ -304,7 +312,7 @@ export function PortfolioAssistant() {
           </div>
 
           {messages.length === 1 ? (
-            <div className="flex flex-wrap gap-2 border-t border-border/60 px-3 py-3 sm:px-4">
+            <div className="flex shrink-0 flex-wrap gap-2 border-t border-border/60 px-3 py-3 sm:px-4">
               {suggestions.map((suggestion) => (
                 <button
                   type="button"
@@ -319,7 +327,7 @@ export function PortfolioAssistant() {
           ) : null}
 
           <form
-            className="flex items-center gap-2 border-t border-border/70 p-3 sm:p-4"
+            className="flex shrink-0 items-center gap-2 border-t border-border/70 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:p-4"
             onSubmit={(event) => {
               event.preventDefault();
               void sendMessage();
@@ -332,7 +340,7 @@ export function PortfolioAssistant() {
               placeholder="Ask a quick question..."
               aria-label="Ask about Ahmed"
               maxLength={1200}
-              className="h-11 min-w-0 flex-1 rounded-full border border-border bg-muted/35 px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground/40 focus:bg-background focus:ring-2 focus:ring-ring/30"
+              className="h-11 min-w-0 flex-1 rounded-full border border-border bg-muted/35 px-4 text-base outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground/40 focus:bg-background focus:ring-2 focus:ring-ring/30 sm:text-sm"
             />
             <button
               type="submit"
