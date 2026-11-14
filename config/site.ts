@@ -22,8 +22,8 @@ export const siteConfig = {
     templateRepo: "https://github.com/ahmed-khlif",
   },
   ogImage: "https://ahmedkhlif.me/og-image.png",
-  iconIco: "/icon.svg",
-  logoIcon: "/icon.svg",
+  iconIco: "/profile-img.jpg",
+  logoIcon: "/profile-img.jpg",
   keywords: [
     "Ahmed Khlif",
     "Software Engineer",

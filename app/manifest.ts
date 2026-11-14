@@ -13,14 +13,14 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#0f1115",
     icons: [
       {
-        src: "/icon.svg",
+        src: "/profile-img.jpg",
         sizes: "any",
-        type: "image/svg+xml",
+        type: "image/jpeg",
       },
       {
-        src: "/apple-icon.png",
-        sizes: "180x180",
-        type: "image/png",
+        src: "/profile-img.jpg",
+        sizes: "any",
+        type: "image/jpeg",
       },
     ],
     categories: [

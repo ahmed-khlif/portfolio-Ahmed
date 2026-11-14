@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
@@ -30,10 +31,15 @@ export function MobileNav({ items, children, onClose }: MobileNavProps) {
         className="absolute right-0 top-[calc(100%+0.75rem)] z-50 w-[min(calc(100vw-2rem),24rem)] md:hidden"
       >
         <div className="grid max-h-[calc(100dvh-6rem)] gap-4 overflow-y-auto rounded-2xl border border-border/70 bg-popover p-4 text-popover-foreground shadow-2xl shadow-foreground/15">
-          <Link href="/" onClick={onClose} className="flex items-center space-x-2">
-            <span className="font-heading text-2xl font-semibold tracking-tight">
-              {siteConfig.authorName}
-            </span>
+          <Link href="/" onClick={onClose} className="flex items-center gap-3">
+            <Image
+              src={siteConfig.logoIcon}
+              alt=""
+              width={40}
+              height={40}
+              className="size-10 rounded-xl object-cover object-center"
+            />
+            <span className="font-heading text-2xl font-semibold tracking-tight">{siteConfig.authorName}</span>
           </Link>
           <nav aria-label="Mobile navigation links" className="grid grid-flow-row auto-rows-max text-sm">
             {items.map((item, index) => (

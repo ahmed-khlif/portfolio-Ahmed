@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import * as React from "react";
@@ -78,9 +79,14 @@ export function MainNav({ items, children }: MainNavProps) {
           className="group flex items-center gap-2.5"
           aria-label={`${siteConfig.authorName} home`}
         >
-          <span className="grid size-9 place-items-center rounded-xl bg-foreground font-heading text-[13px] tracking-tight text-background shadow-sm transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-[1.04]">
-            AK
-          </span>
+          <Image
+            src={siteConfig.logoIcon}
+            alt=""
+            width={36}
+            height={36}
+            className="size-9 rounded-xl object-cover object-center shadow-sm transition-transform duration-300 group-hover:-rotate-2 group-hover:scale-[1.04]"
+            priority
+          />
           <span className="flex flex-col justify-center leading-none">
             <span className="whitespace-nowrap text-[15px] font-semibold tracking-tight text-foreground">
               {siteConfig.authorName}
