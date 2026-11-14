@@ -33,6 +33,7 @@ export function MainNav({ items, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
   const pathname = usePathname();
+  const navRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     setShowMobileMenu(false);
@@ -41,16 +42,31 @@ export function MainNav({ items, children }: MainNavProps) {
   React.useEffect(() => {
     if (!showMobileMenu) return;
 
+    const onPointerDown = (event: PointerEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setShowMobileMenu(false);
+      }
+    };
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setShowMobileMenu(false);
     };
 
+    document.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    const previousOverflow = document.body.style.overflow;
+    if (window.matchMedia("(max-width: 767px)").matches) {
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
   }, [showMobileMenu]);
 
   return (
-    <div className="relative flex w-full min-w-0 items-center gap-3 md:gap-5">
+    <div ref={navRef} className="relative flex w-full min-w-0 items-center gap-3 md:gap-5">
       <motion.div
         initial={{ opacity: 0, x: -12 }}
         animate={{ opacity: 1, x: 0 }}
@@ -117,7 +133,7 @@ export function MainNav({ items, children }: MainNavProps) {
         {showMobileMenu ? <Icons.close className="h-5 w-5" /> : <Icons.menu className="h-5 w-5" />}
       </button>
       {showMobileMenu && items && (
-        <MobileNav items={items}>{children}</MobileNav>
+        <MobileNav items={items} onClose={() => setShowMobileMenu(false)}>{children}</MobileNav>
       )}
     </div>
   );

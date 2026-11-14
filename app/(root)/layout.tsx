@@ -1,6 +1,7 @@
 import { CommandMenu } from "@/components/common/command-menu";
 import { MainNav } from "@/components/common/main-nav";
 import { ModeToggle } from "@/components/common/mode-toggle";
+import { PortfolioAssistant } from "@/components/common/portfolio-assistant";
 import { ScrollControls } from "@/components/common/scroll-controls";
 import { SiteFooter } from "@/components/common/site-footer";
 import { SocialDock } from "@/components/common/social-dock";
@@ -39,6 +40,7 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
       <SiteFooter />
       <ScrollControls />
       <SocialDock />
+      <PortfolioAssistant />
     </div>
   );
 }
