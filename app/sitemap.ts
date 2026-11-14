@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 
 import { siteConfig } from "@/config/site";
+import { Projects } from "@/config/projects";
 import { getAllBlogsMeta } from "@/lib/blogs";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -57,6 +58,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/certifications`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.6,
+    },
+    {
       url: `${baseUrl}/resume`,
       lastModified: new Date(),
       changeFrequency: "monthly",
@@ -73,5 +80,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...routes, ...blogRoutes];
+  const projectRoutes: MetadataRoute.Sitemap = Projects.map((project) => ({
+    url: `${baseUrl}/projects/${project.id}`,
+    lastModified: project.endDate,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  return [...routes, ...projectRoutes, ...blogRoutes];
 }

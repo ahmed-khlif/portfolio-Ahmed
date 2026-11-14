@@ -65,14 +65,16 @@ export default function IndexPage() {
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": `${siteConfig.url}/#person`,
     name: siteConfig.authorName,
     url: siteConfig.url,
-    image: siteConfig.ogImage,
+    image: `${siteConfig.url}/profile-img.jpg`,
     jobTitle: siteConfig.role,
     email: `mailto:${siteConfig.email}`,
     telephone: siteConfig.phone,
     description: siteConfig.description,
     sameAs: [siteConfig.links.github, siteConfig.links.linkedin],
+    knowsLanguage: ["Arabic", "English", "French"],
     address: {
       "@type": "PostalAddress",
       addressLocality: "Sfax",
@@ -90,12 +92,28 @@ export default function IndexPage() {
     ],
   };
 
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${siteConfig.url}/#website`,
+    name: siteConfig.name,
+    url: siteConfig.url,
+    description: siteConfig.description,
+    inLanguage: "en",
+    publisher: { "@id": `${siteConfig.url}/#person` },
+  };
+
   return (
     <ClientPageWrapper>
       <Script
         id="schema-person"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
+      <Script
+        id="schema-website"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
 
       <section className="relative isolate overflow-hidden border-b border-border py-16 sm:py-24 lg:min-h-[calc(100vh-4rem)] lg:py-24">

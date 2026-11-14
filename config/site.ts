@@ -1,12 +1,12 @@
 export const siteConfig = {
-  name: "Ahmed Khlif — Software Engineer",
+  name: "Ahmed Khlif - Software Engineer",
   authorName: "Ahmed Khlif",
   username: "ahmed-khlif",
   role: "Software Engineer",
   subtitle: "Full-stack & AI-driven applications",
   description:
-    "Ahmed Khlif — Software Engineer based in Sfax, Tunisia. I build AI-powered applications and scalable web & mobile systems with React, Next.js, NestJS, Flutter and Python.",
-  url: "https://ahmedkhlif.me",
+    "Ahmed Khlif is a Software Engineer based in Sfax, Tunisia. I build AI-powered applications and scalable web and mobile systems with React, Next.js, NestJS, Flutter and Python.",
+  url: "https://www.ahmedkhlif.dev",
   email: "khlif.ahmed.dev@gmail.com",
   phone: "+216 94 272 455",
   phoneHref: "tel:+21694272455",
@@ -21,7 +21,7 @@ export const siteConfig = {
     linkedin: "https://www.linkedin.com/in/ahmed-khlif",
     templateRepo: "https://github.com/ahmed-khlif",
   },
-  ogImage: "https://ahmedkhlif.me/og-image.png",
+  ogImage: "https://www.ahmedkhlif.dev/og-image.png",
   iconIco: "/icon.png",
   logoIcon: "/profile-img.jpg",
   keywords: [
