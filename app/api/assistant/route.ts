@@ -135,6 +135,8 @@ ${buildBlogContext()}
 const systemInstruction = `You are the intelligent, friendly assistant for Ahmed Khlif's portfolio website. You have the complete site knowledge below: projects, full case studies, experience, achievements, skills, education, certifications, open-source contributions, notes, pages, and public contact details. Answer the visitor's actual question directly using that context. Keep replies warm and concise, but include useful specifics and links when relevant (normally 2-6 short sentences).
 
 Rules:
+- Understand English, French, Arabic, and Tunisian Arabic written in Arabizi/Franco-Arabic with numbers such as 2, 3, 5, 7 and 9. For example, "belahi a7ki 3la akher khedma a3melha Ahmed" means "please talk about Ahmed's latest work". Understand spelling variations such as a7ki/ahki, akher/a5er, khedma/khedma, and a3melha/a3malha.
+- Reply in the visitor's language when practical. If they write Tunisian Arabizi, answer in clear Tunisian Arabizi with project names and technology names kept readable in English.
 - Treat the portfolio context as the source of truth. Do not invent facts, salary numbers, employers, dates, metrics, technologies, or credentials.
 - For project questions, mention the project name, relevant stack or outcome, and its GitHub/website link when present. Portfolio case-study URLs follow https://ahmedkhlif.me/projects/<project-id>.
 - For skills questions, connect the skill to the matching project or experience rather than listing random technologies.
@@ -148,7 +150,18 @@ PORTFOLIO CONTEXT
 ${buildPortfolioContext()}`;
 
 function fallbackReply(question: string) {
-  const normalized = question.toLowerCase();
+  const normalized = question.toLowerCase().normalize("NFKC").replace(/\s+/g, " ");
+
+  if (
+    /(a7ki|ahki|fasser|chra7|talk|tell|describe)/i.test(normalized) &&
+    /(akher|a5er|latest|recent|jdid|khedma|work|project)/i.test(normalized)
+  ) {
+    const latestProject = [...Projects].sort(
+      (first, second) => second.endDate.getTime() - first.endDate.getTime(),
+    )[0];
+
+    return `Ey, a5er project fi portfolio mta3 Ahmed howa ${latestProject.companyName}. Heya ${latestProject.shortDescription} Stack: ${latestProject.techStack.slice(0, 6).join(", ")}. Tnajem tchouf l-case study houni: https://ahmedkhlif.me/projects/${latestProject.id} w GitHub: ${latestProject.githubLink || "not listed"}`;
+  }
 
   if (/(salary|pay|rate|cost|prix|salaire|compensation)/i.test(normalized)) {
     return "Ahmed has not published a fixed salary or freelance rate. It depends on the role, scope, and engagement; the best next step is to contact him with the opportunity and context.";
@@ -158,15 +171,15 @@ function fallbackReply(question: string) {
     return `Ahmed is open to full-time roles, freelance missions, and AI collaborations. You can call him at ${siteConfig.phone}, message him on WhatsApp, or email ${siteConfig.email}.`;
   }
 
-  if (/(skill|stack|technology|tech|know|good at|expert)/i.test(normalized)) {
+  if (/(skill|stack|technology|tech|know|good at|expert|maharat|ta3raf|t3aref)/i.test(normalized)) {
     return "Ahmed’s strongest areas are full-stack TypeScript with React, Next.js and NestJS, Python and applied AI, PostgreSQL data systems, and delivery automation with Docker and CI/CD.";
   }
 
-  if (/(experience|career|background|education|study|degree)/i.test(normalized)) {
+  if (/(experience|career|background|education|study|degree|khedma|5edma|parcours)/i.test(normalized)) {
     return "Ahmed is a full-stack developer and AI engineer based in Sfax, Tunisia. His portfolio combines freelance product work with software-engineering internships, supported by engineering and professional-master’s studies.";
   }
 
-  if (/(project|build|work|portfolio)/i.test(normalized)) {
+  if (/(project|build|work|portfolio|khedma|5edma|a3mel|a3mal|a5er|akher)/i.test(normalized)) {
     return "He builds production-focused systems such as event platforms, BI dashboards, industrial traceability software, AI assistants, and developer tools. Ask me about a specific project and I’ll point you to the relevant case study.";
   }
 
@@ -210,28 +223,32 @@ export async function POST(request: Request) {
     }
 
     const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": apiKey,
-        },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemInstruction }] },
-          contents: messages.map((message) => ({
-            role: message.role === "assistant" ? "model" : "user",
-            parts: [{ text: message.content }],
-          })),
-          generationConfig: {
-            temperature: 0.35,
-            maxOutputTokens: 560,
-          },
-        }),
-        cache: "no-store",
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+    const geminiRequest: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
       },
-    );
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: systemInstruction }] },
+        contents: messages.map((message) => ({
+          role: message.role === "assistant" ? "model" : "user",
+          parts: [{ text: message.content }],
+        })),
+        generationConfig: {
+          temperature: 0.35,
+          maxOutputTokens: 560,
+        },
+      }),
+      cache: "no-store",
+    };
+
+    let response = await fetch(geminiUrl, geminiRequest);
+    if ([429, 500, 502, 503, 504].includes(response.status)) {
+      await new Promise((resolve) => setTimeout(resolve, 350));
+      response = await fetch(geminiUrl, geminiRequest);
+    }
 
     if (!response.ok) {
       return NextResponse.json({ message: fallbackReply(latestUserMessage.content), source: "fallback" });
