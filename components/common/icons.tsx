@@ -58,7 +58,7 @@ import {
   SiAngular,
   SiBootstrap,
   SiC,
-  SiCss,
+  SiCss3 as SiCss,
   SiDart,
   SiDocker,
   SiDotnet,

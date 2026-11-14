@@ -294,6 +294,56 @@ export const Projects: ProjectInterface[] = [
     },
   },
   {
+    id: "nim-production",
+    type: "Freelance",
+    companyName: "NIM Production",
+    role: "Full-Stack Developer (Freelance)",
+    category: ["Full Stack", "Backend", "DevOps"],
+    shortDescription:
+      "An industrial production-management and real-time traceability platform that connects piece intake, machine assignments, production, quality control and audited history.",
+    githubLink: "https://github.com/ahmed-khlif/NIM_production",
+    techStack: ["Next.js", "React", "TypeScript", "NestJS", "PostgreSQL", "Prisma", "Socket.io", "Docker"],
+    startDate: new Date("2026-11-08"),
+    endDate: new Date("2026-11-14"),
+    companyLogoImg: "/projects/nim-production/cover.png",
+    metrics: [
+      "Piece-level traceability from intake to quality control",
+      "Realtime production, assignment and quality events after DB commit",
+      "CSV, Tekla HTML .xls and .xlsx import workflows",
+      "Machine planning, maintenance and operator tablet flows",
+    ],
+    pagesInfoArr: [
+      {
+        title: "Production manager dashboard",
+        description:
+          "A live operational view of production progress, machine load, delayed pieces, quality status, recent activity and maintenance work.",
+        imgArr: ["/projects/nim-production/cover.png"],
+      },
+      {
+        title: "Traceability workbench",
+        description:
+          "Piece and unit-level workflows cover imports, machine assignments, production execution, quality checks and append-only history across the full lifecycle.",
+        imgArr: ["/projects/nim-production/screens.png"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "NIM Production is an industrial production-management platform for La Nouvelle Industrie Des Metaux. It brings production planning and real-time traceability into one workspace for managers, operators, quality controllers and administrators.",
+        "The core domain follows each piece through its full lifecycle: Piece -> PieceUnit -> Assignment -> ProductionOperation -> QualityControl -> HistoryEvent. That model keeps quantity-one progression, reassignment history and audited production events explicit instead of hiding them in UI state.",
+        "The implementation is a pnpm monorepo with a Next.js and React application shell, a NestJS API, Prisma over PostgreSQL, TanStack Query/Table, authenticated Socket.IO realtime events and Docker-based delivery.",
+        "The current product includes role-protected dashboards, machine and operator administration, import validation for CSV and Excel sources, machine planning, production execution, quality control, authenticated piece-photo galleries and traceability history.",
+      ],
+      bullets: [
+        "Designed the piece-to-history domain model for unit-level industrial traceability.",
+        "Built server-backed production, machine assignment, quality control and audited history workflows.",
+        "Implemented import preview and commit flows for CSV, Tekla HTML .xls and .xlsx files with validation feedback.",
+        "Added manager dashboards with production, quality, priority, machine and due-date metrics.",
+        "Connected authenticated Socket.IO realtime updates after database commit for production, planning, assignment and quality events.",
+        "Structured the application as a Next.js/NestJS monorepo with Prisma, PostgreSQL and Docker delivery.",
+      ],
+    },
+  },
+  {
     id: "student-qa-assistant",
     type: "Freelance",
     companyName: "Student Q&A Assistant",
