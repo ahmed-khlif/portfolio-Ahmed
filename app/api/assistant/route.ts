@@ -251,6 +251,8 @@ export async function POST(request: Request) {
     }
 
     if (!response.ok) {
+      const providerError = await response.text();
+      console.error("[assistant] Gemini request failed", response.status, providerError.slice(0, 600));
       return NextResponse.json({ message: fallbackReply(latestUserMessage.content), source: "fallback" });
     }
 
@@ -263,7 +265,8 @@ export async function POST(request: Request) {
       message: message || fallbackReply(latestUserMessage.content),
       source: message ? "gemini" : "fallback",
     });
-  } catch {
+  } catch (error) {
+    console.error("[assistant] Gemini request error", error);
     return NextResponse.json({
       message: "The assistant is taking a short break. You can still reach Ahmed directly through the contact page.",
       source: "fallback",
