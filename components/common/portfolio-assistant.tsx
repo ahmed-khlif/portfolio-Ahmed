@@ -1,7 +1,7 @@
 "use client";
 
 import { Bot, Loader2, MessageCircle, Send, Sparkles, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -24,6 +24,138 @@ const welcomeMessage: ChatMessage = {
   content:
     "Hi! I’m Ahmed’s portfolio assistant. Ask me about his skills, projects, experience, availability, or how to get in touch.",
 };
+
+function safeHref(value: string) {
+  return /^(https?:\/\/|mailto:|tel:)/i.test(value) ? value : null;
+}
+
+function splitTrailingPunctuation(value: string) {
+  let url = value;
+  let trailing = "";
+
+  while (/[.,!?;:]$/.test(url)) {
+    trailing = `${url.slice(-1)}${trailing}`;
+    url = url.slice(0, -1);
+  }
+
+  return { url, trailing };
+}
+
+function renderLink(label: string, href: string, key: string) {
+  const safeUrl = safeHref(href);
+  if (!safeUrl) return label;
+
+  return (
+    <a
+      key={key}
+      href={safeUrl}
+      target={/^https?:\/\//i.test(safeUrl) ? "_blank" : undefined}
+      rel={/^https?:\/\//i.test(safeUrl) ? "noreferrer" : undefined}
+      className="font-medium text-foreground underline decoration-foreground/30 underline-offset-2 transition-colors hover:decoration-foreground"
+    >
+      {label}
+    </a>
+  );
+}
+
+function renderInlineMarkdown(text: string, keyPrefix: string): ReactNode[] {
+  const tokenPattern = /(\*\*.+?\*\*|__.+?__|\[[^\]]+\]\((?:https?:\/\/|mailto:|tel:)[^)]+\)|https?:\/\/[^\s<]+|mailto:[^\s<]+|tel:[^\s<]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|\+\d[\d ()-]{6,}\d)/gi;
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let tokenIndex = 0;
+
+  while ((match = tokenPattern.exec(text)) !== null) {
+    if (match.index > lastIndex) nodes.push(text.slice(lastIndex, match.index));
+
+    const token = match[0];
+    const key = `${keyPrefix}-${tokenIndex}`;
+    tokenIndex += 1;
+
+    if (token.startsWith("**") && token.endsWith("**")) {
+      nodes.push(<strong key={key}>{token.slice(2, -2)}</strong>);
+    } else if (token.startsWith("__") && token.endsWith("__")) {
+      nodes.push(<strong key={key}>{token.slice(2, -2)}</strong>);
+    } else {
+      const markdownLink = token.match(/^\[([^\]]+)\]\(((?:https?:\/\/|mailto:|tel:)[^)]+)\)$/i);
+
+      if (markdownLink) {
+        nodes.push(renderLink(markdownLink[1], markdownLink[2], key));
+      } else {
+        const { url, trailing } = splitTrailingPunctuation(token);
+        const href = token.includes("@") && !/^(https?:\/\/|mailto:|tel:)/i.test(url)
+          ? `mailto:${url}`
+          : /^\+\d[\d ()-]{6,}\d$/.test(url)
+            ? `tel:${url.replace(/[^\d+]/g, "")}`
+            : url;
+        nodes.push(renderLink(token.slice(0, token.length - trailing.length), href, key));
+        if (trailing) nodes.push(trailing);
+      }
+    }
+
+    lastIndex = match.index + token.length;
+  }
+
+  if (lastIndex < text.length) nodes.push(text.slice(lastIndex));
+  return nodes;
+}
+
+function AssistantMessageContent({ content }: { content: string }) {
+  const normalizedContent = content
+    .replace(/\\([*_])/g, "$1")
+    .replace(/https\\:\/\//g, "https://")
+    .replace(/(^|\s)\*\*(?=\s|$)/g, "$1");
+  const lines = normalizedContent.replace(/\r\n/g, "\n").split("\n");
+  const blocks: ReactNode[] = [];
+  const listItems: string[] = [];
+  let collectingList = false;
+
+  const flushList = () => {
+    if (!listItems.length) return;
+
+    const items = [...listItems];
+    blocks.push(
+      <ul key={`list-${blocks.length}`} className="ml-4 list-disc space-y-1.5">
+        {items.map((item, index) => (
+          <li key={`item-${index}`}>
+            {item.split("\n").map((line, lineIndex) => (
+              <span key={`line-${lineIndex}`}>
+                {lineIndex > 0 ? <br /> : null}
+                {renderInlineMarkdown(line, `item-${index}-${lineIndex}`)}
+              </span>
+            ))}
+          </li>
+        ))}
+      </ul>,
+    );
+    listItems.length = 0;
+    collectingList = false;
+  };
+
+  lines.forEach((line, index) => {
+    const trimmedLine = line.trim();
+    const listMatch = trimmedLine.match(/^(?:[-*+]|\d+[.)])\s+(.+)$/);
+
+    if (listMatch) {
+      listItems.push(listMatch[1]);
+      collectingList = true;
+      return;
+    }
+
+    if (collectingList && trimmedLine) {
+      listItems[listItems.length - 1] = `${listItems[listItems.length - 1]}\n${trimmedLine}`;
+      return;
+    }
+
+    flushList();
+    if (trimmedLine) {
+      blocks.push(<p key={`paragraph-${index}`}>{renderInlineMarkdown(trimmedLine, `paragraph-${index}`)}</p>);
+    }
+  });
+
+  flushList();
+  return <div className="space-y-2">{blocks}</div>;
+}
 
 export function PortfolioAssistant() {
   const [open, setOpen] = useState(false);
@@ -144,16 +276,20 @@ export function PortfolioAssistant() {
                     <Bot className="size-3.5" aria-hidden="true" />
                   </span>
                 ) : null}
-                <p
+                <div
                   className={cn(
-                    "max-w-[86%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-6",
+                    "max-w-[86%] break-words rounded-2xl px-3.5 py-2.5 text-sm leading-6",
                     message.role === "assistant"
                       ? "rounded-tl-md bg-muted text-foreground"
                       : "rounded-tr-md bg-foreground text-background",
                   )}
                 >
-                  {message.content}
-                </p>
+                  {message.role === "assistant" ? (
+                    <AssistantMessageContent content={message.content} />
+                  ) : (
+                    <span className="whitespace-pre-wrap">{message.content}</span>
+                  )}
+                </div>
               </div>
             ))}
             {isLoading ? (
