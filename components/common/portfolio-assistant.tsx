@@ -359,12 +359,13 @@ export function PortfolioAssistant() {
           type="button"
           onClick={() => setOpen(true)}
           aria-label="Ask about Ahmed"
-          className="group flex h-12 items-center gap-2 rounded-full border border-foreground/10 bg-foreground px-4 text-sm font-medium text-background shadow-xl shadow-foreground/20 transition-all hover:-translate-y-1 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-14 sm:px-5"
+          title="Ask about Ahmed"
+          className="group flex size-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground text-sm font-medium text-background shadow-xl shadow-foreground/20 transition-all hover:-translate-y-1 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-14 sm:w-auto sm:justify-start sm:gap-2 sm:px-5"
         >
-          <span className="grid size-7 place-items-center rounded-full bg-background/15 sm:size-8">
+          <span className="grid size-8 place-items-center rounded-full bg-background/15">
             <MessageCircle className="size-4 transition-transform group-hover:rotate-[-8deg]" aria-hidden="true" />
           </span>
-          <span>Ask about Ahmed</span>
+          <span className="hidden sm:inline">Ask about Ahmed</span>
         </button>
       ) : null}
     </div>
