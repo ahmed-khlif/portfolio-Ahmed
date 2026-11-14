@@ -91,15 +91,15 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                 What I&apos;m listening to
               </p>
-              <div className="h-[100px] overflow-hidden rounded-xl border border-border">
+              <div className="h-[152px] overflow-hidden rounded-xl border border-border bg-[#121212]">
                 <iframe
                   title="Spotify playlist"
-                  src="https://open.spotify.com/embed/playlist/5HEFQpaI5smcqLBYJhq4pv?utm_source=generator"
+                  src="https://open.spotify.com/embed/playlist/5HEFQpaI5smcqLBYJhq4pv?utm_source=generator&theme=0"
                   width="100%"
-                  height="100"
+                  height="152"
                   loading="lazy"
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    className="block w-full border-0"
+                  className="block h-[152px] w-full border-0 bg-[#121212]"
                 />
               </div>
             </div>
