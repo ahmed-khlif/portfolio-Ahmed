@@ -1,6 +1,7 @@
 "use client";
 
 import { Bot, Loader2, MessageCircle, Send, Sparkles, X } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -158,6 +159,7 @@ function AssistantMessageContent({ content }: { content: string }) {
 }
 
 export function PortfolioAssistant() {
+  const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -180,7 +182,9 @@ export function PortfolioAssistant() {
 
     document.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("keydown", onKeyDown);
-    requestAnimationFrame(() => inputRef.current?.focus());
+    if (window.matchMedia("(min-width: 640px)").matches) {
+      requestAnimationFrame(() => inputRef.current?.focus());
+    }
 
     return () => {
       document.removeEventListener("pointerdown", onPointerDown);
@@ -238,25 +242,38 @@ export function PortfolioAssistant() {
   };
 
   return (
+    <>
+      {open ? (
+        <button
+          type="button"
+          aria-label="Close portfolio assistant"
+          className="fixed inset-0 z-[68] bg-foreground/10 backdrop-blur-[2px] sm:hidden"
+          onClick={() => setOpen(false)}
+        />
+      ) : null}
     <div
       ref={panelRef}
       className={cn(
         "fixed z-[70]",
         open
-          ? "inset-x-2 bottom-2 sm:inset-x-auto sm:bottom-[calc(1.25rem+env(safe-area-inset-bottom))] sm:right-6"
+          ? "inset-x-0 bottom-0 sm:inset-x-auto sm:bottom-[calc(1.25rem+env(safe-area-inset-bottom))] sm:right-6"
           : "bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-4 sm:right-6",
       )}
     >
       {open ? (
-        <section
+        <motion.section
           role="dialog"
-          aria-modal="false"
+          aria-modal="true"
           aria-label="Ask about Ahmed"
-          className="mb-2 flex h-[min(620px,calc(100dvh-1.5rem))] w-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-background/95 shadow-2xl shadow-foreground/15 backdrop-blur-xl sm:mb-4 sm:h-auto sm:w-[min(390px,calc(100vw-2rem))] sm:rounded-3xl"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 24, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          className="relative flex h-[min(80dvh,640px)] w-full origin-bottom flex-col overflow-hidden rounded-t-[28px] border border-b-0 border-border/80 bg-background/95 shadow-[0_-20px_60px_-30px_hsl(var(--foreground)/0.55)] backdrop-blur-xl sm:mb-4 sm:h-auto sm:w-[min(390px,calc(100vw-2rem))] sm:origin-bottom-right sm:rounded-3xl sm:border-b sm:shadow-2xl sm:shadow-foreground/15"
         >
-          <div className="flex shrink-0 items-start justify-between gap-3 border-b border-border/70 bg-muted/45 px-3.5 py-3.5 sm:px-5 sm:py-4">
+          <div className="relative flex shrink-0 items-start justify-between gap-3 border-b border-border/70 bg-muted/45 px-4 pb-3.5 pt-5 sm:px-5 sm:py-4">
+            <span className="absolute left-1/2 top-2 h-1 w-10 -translate-x-1/2 rounded-full bg-border sm:hidden" aria-hidden="true" />
             <div className="flex min-w-0 items-center gap-3">
-              <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-foreground text-background shadow-sm">
+              <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-foreground text-background shadow-sm sm:size-10 sm:rounded-2xl">
                 <Sparkles className="size-4" aria-hidden="true" />
               </span>
               <div className="min-w-0">
@@ -270,13 +287,13 @@ export function PortfolioAssistant() {
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close portfolio assistant"
-              className="grid size-9 shrink-0 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="grid size-9 shrink-0 place-items-center rounded-full bg-background/60 text-muted-foreground transition-colors hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <X className="size-4" aria-hidden="true" />
             </button>
           </div>
 
-          <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain px-3 py-4 sm:max-h-[min(430px,calc(100dvh-18rem))] sm:min-h-48 sm:flex-none sm:px-4" aria-live="polite">
+          <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain bg-background/75 px-4 py-4 sm:max-h-[min(430px,calc(100dvh-18rem))] sm:min-h-48 sm:flex-none sm:bg-transparent sm:px-4" aria-live="polite">
             {messages.map((message) => (
               <div key={message.id} className={cn("flex gap-2.5", message.role === "user" && "justify-end")}>
                 {message.role === "assistant" ? (
@@ -286,10 +303,10 @@ export function PortfolioAssistant() {
                 ) : null}
                 <div
                   className={cn(
-                    "max-w-[86%] break-words rounded-2xl px-3.5 py-2.5 text-sm leading-6",
+                    "max-w-[88%] break-words rounded-2xl border px-3.5 py-2.5 text-sm leading-6 shadow-sm",
                     message.role === "assistant"
-                      ? "rounded-tl-md bg-muted text-foreground"
-                      : "rounded-tr-md bg-foreground text-background",
+                      ? "rounded-tl-md border-border/60 bg-muted/80 text-foreground"
+                      : "rounded-tr-md border-foreground bg-foreground text-background shadow-foreground/10",
                   )}
                 >
                   {message.role === "assistant" ? (
@@ -303,7 +320,7 @@ export function PortfolioAssistant() {
             {isLoading ? (
               <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
                 <span className="grid size-7 place-items-center rounded-full bg-muted"><Bot className="size-3.5" aria-hidden="true" /></span>
-                <span className="inline-flex items-center gap-1.5 rounded-2xl rounded-tl-md bg-muted px-3.5 py-2.5">
+                <span className="inline-flex items-center gap-1.5 rounded-2xl rounded-tl-md border border-border/60 bg-muted/80 px-3.5 py-2.5 shadow-sm">
                   Thinking <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
                 </span>
               </div>
@@ -312,13 +329,13 @@ export function PortfolioAssistant() {
           </div>
 
           {messages.length === 1 ? (
-            <div className="flex shrink-0 flex-wrap gap-2 border-t border-border/60 px-3 py-3 sm:px-4">
+            <div className="flex shrink-0 gap-2 overflow-x-auto border-t border-border/60 bg-background/90 px-4 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible sm:px-4">
               {suggestions.map((suggestion) => (
                 <button
                   type="button"
                   key={suggestion}
                   onClick={() => sendMessage(suggestion)}
-                  className="rounded-full border border-border bg-background px-3 py-2 text-left text-xs text-muted-foreground transition-colors hover:border-foreground/30 hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="shrink-0 rounded-full border border-border bg-background px-3 py-2 text-left text-xs text-muted-foreground transition-colors hover:border-foreground/30 hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {suggestion}
                 </button>
@@ -327,7 +344,7 @@ export function PortfolioAssistant() {
           ) : null}
 
           <form
-            className="flex shrink-0 items-center gap-2 border-t border-border/70 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:p-4"
+            className="flex shrink-0 items-center gap-2 border-t border-border/70 bg-background/95 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:bg-transparent sm:p-4"
             onSubmit={(event) => {
               event.preventDefault();
               void sendMessage();
@@ -351,7 +368,7 @@ export function PortfolioAssistant() {
               <Send className="size-4" aria-hidden="true" />
             </button>
           </form>
-        </section>
+        </motion.section>
       ) : null}
 
       {!open ? (
@@ -369,5 +386,6 @@ export function PortfolioAssistant() {
         </button>
       ) : null}
     </div>
+    </>
   );
 }
