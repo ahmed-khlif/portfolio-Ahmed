@@ -27,10 +27,9 @@ function FlagIcon({ country }: { country: "gb" | "fr" | "tn" }) {
     return (
       <svg viewBox="0 0 24 16" className="size-5 shrink-0 overflow-hidden rounded-[3px] shadow-sm" aria-hidden="true">
         <rect width="24" height="16" rx="2" fill="#e70013" />
-        <circle cx="12" cy="8" r="5" fill="#fff" />
-        <circle cx="13" cy="8" r="2.4" fill="#e70013" />
-        <circle cx="14" cy="8" r="1.8" fill="#fff" />
-        <path fill="#e70013" d="m15.8 8 .9-1.2-.1 1.5 1.3.8-1.5.1-.8 1.3-.1-1.5-1.3-.8 1.5-.2z" />
+        <circle cx="12" cy="8" r="4.35" fill="#fff" />
+        <path fill="#e70013" d="M14.55 4.55a3.45 3.45 0 1 0 0 6.9a2.65 2.65 0 1 1 0-6.9Z" />
+        <path fill="#e70013" d="m15.65 6.45.42 1.02 1.1.08-.84.7.26 1.08-.94-.56-.95.56.25-1.08-.84-.7 1.1-.08.44-1.02Z" />
       </svg>
     );
   }
