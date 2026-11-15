@@ -4,7 +4,6 @@ import { ModeToggle } from "@/components/common/mode-toggle";
 import { PortfolioAssistant } from "@/components/common/portfolio-assistant";
 import { ScrollControls } from "@/components/common/scroll-controls";
 import { SiteFooter } from "@/components/common/site-footer";
-import { SiteHeader } from "@/components/common/site-header";
 import { SocialDock } from "@/components/common/social-dock";
 import { routesConfig } from "@/config/routes";
 
@@ -23,14 +22,16 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
         Skip to content
       </a>
 
-      <SiteHeader>
+      <header className="fixed inset-x-0 top-0 z-50 w-full border-b border-border/60 bg-background/90 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 md:isolate">
+        <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center px-4 py-3 sm:px-6 lg:px-8">
           <MainNav items={routesConfig.mainNav}>
             <div className="flex shrink-0 items-center gap-1.5">
               <CommandMenu />
               <ModeToggle />
             </div>
           </MainNav>
-      </SiteHeader>
+        </div>
+      </header>
 
       <main id="main-content" tabIndex={-1} className="container flex-1 pt-16 outline-none">
         {children}
