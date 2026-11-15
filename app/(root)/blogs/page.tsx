@@ -119,6 +119,7 @@ export default function BlogsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <PageContainer
+        translationKey="blogs"
         title={pagesConfig.blogs.title}
         description={pagesConfig.blogs.description}
       >

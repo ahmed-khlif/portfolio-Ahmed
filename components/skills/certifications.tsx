@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, Award } from "lucide-react";
 
+import { LocalizedText } from "@/components/common/localized-text";
 import type { Certification } from "@/config/certifications";
 
 interface CertificationsProps {
@@ -13,8 +14,8 @@ export function Certifications({ certifications }: CertificationsProps) {
       <div className="mb-8 grid gap-4 md:grid-cols-[5rem_18rem_1fr] md:gap-8">
         <span className="font-mono text-xs text-muted-foreground">07</span>
         <div>
-          <h2 id="certifications-title" className="font-heading text-2xl tracking-tight md:text-3xl">Certifications</h2>
-          <p className="mt-2 text-sm leading-7 text-muted-foreground">Selected credentials and continued learning.</p>
+          <h2 id="certifications-title" className="font-heading text-2xl tracking-tight md:text-3xl"><LocalizedText id="pages.certifications.title" fallback="Certifications" /></h2>
+          <LocalizedText as="p" id="skills.selectedCredentials" fallback="Selected credentials and continued learning." className="mt-2 text-sm leading-7 text-muted-foreground" />
         </div>
       </div>
       <div className="grid gap-3 md:grid-cols-3">

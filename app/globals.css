@@ -314,6 +314,14 @@
       "rlig"1,
       "calt"1;
   }
+
+  html[dir="rtl"] body {
+    direction: rtl;
+  }
+
+  html[dir="rtl"] .font-mono {
+    letter-spacing: normal;
+  }
 }
 
 .card {

@@ -24,6 +24,7 @@ export const metadata: Metadata = {
 export default function ExperiencePage() {
   return (
     <PageContainer
+      translationKey="experience"
       title={pagesConfig.experience.title}
       description={pagesConfig.experience.description}
     >

@@ -1,4 +1,5 @@
 import { AnimatedSection } from "@/components/common/animated-section";
+import { LocalizedText } from "@/components/common/localized-text";
 import { education } from "@/config/education";
 
 export function EducationTimeline() {
@@ -14,7 +15,7 @@ export function EducationTimeline() {
                 <h3 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">{item.degree}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{item.institution} · {item.location}</p>
               </div>
-              <span className="w-fit rounded-full border border-border bg-muted/50 px-3 py-1 text-xs text-muted-foreground">Education</span>
+              <span className="w-fit rounded-full border border-border bg-muted/50 px-3 py-1 text-xs text-muted-foreground"><LocalizedText id="common.education" fallback="Education" /></span>
             </div>
             <p className="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground">{item.focus}</p>
             <ul className="mt-5 grid gap-2 text-sm text-muted-foreground sm:grid-cols-2">

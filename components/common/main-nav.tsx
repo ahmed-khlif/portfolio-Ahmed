@@ -7,7 +7,9 @@ import { usePathname, useSelectedLayoutSegment } from "next/navigation";
 import * as React from "react";
 
 import { Icons } from "@/components/common/icons";
+import { useLanguage } from "@/components/common/language-provider";
 import { MobileNav } from "@/components/common/mobile-nav";
+import { getRouteTranslationKey } from "@/config/i18n";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
@@ -31,10 +33,15 @@ const navItemVariants = {
 };
 
 export function MainNav({ items, children }: MainNavProps) {
+  const { t } = useLanguage();
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
   const pathname = usePathname();
   const navRef = React.useRef<HTMLDivElement>(null);
+  const localizedItems = items?.map((item) => ({
+    ...item,
+    title: t(getRouteTranslationKey(item.href)),
+  }));
 
   React.useEffect(() => {
     setShowMobileMenu(false);
@@ -75,7 +82,7 @@ export function MainNav({ items, children }: MainNavProps) {
         <Link
           href="/"
           className="group flex items-center gap-2.5"
-          aria-label={`${siteConfig.authorName} home`}
+          aria-label={`${siteConfig.authorName} — ${t("nav.home")}`}
         >
           <Image
             src={siteConfig.logoIcon}
@@ -95,9 +102,9 @@ export function MainNav({ items, children }: MainNavProps) {
           </span>
         </Link>
       </motion.div>
-      {items?.length ? (
+      {localizedItems?.length ? (
         <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 items-center justify-center gap-1 md:flex">
-          {items?.map((item, index) => (
+          {localizedItems.map((item, index) => (
             <motion.div
               key={index}
               custom={index}
@@ -130,14 +137,14 @@ export function MainNav({ items, children }: MainNavProps) {
         type="button"
         aria-expanded={showMobileMenu}
         aria-controls="mobile-navigation"
-        aria-label={showMobileMenu ? "Close navigation menu" : "Open navigation menu"}
+        aria-label={showMobileMenu ? t("nav.closeMenu") : t("nav.openMenu")}
         className="ml-auto grid size-10 place-items-center rounded-full border border-border bg-background text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
         onClick={() => setShowMobileMenu(!showMobileMenu)}
       >
         {showMobileMenu ? <Icons.close className="h-5 w-5" /> : <Icons.menu className="h-5 w-5" />}
       </button>
-      {showMobileMenu && items && (
-        <MobileNav items={items} onClose={() => setShowMobileMenu(false)}>{children}</MobileNav>
+      {showMobileMenu && localizedItems && (
+        <MobileNav items={localizedItems} onClose={() => setShowMobileMenu(false)}>{children}</MobileNav>
       )}
     </div>
   );

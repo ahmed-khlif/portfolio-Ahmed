@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AnimatedSection } from "@/components/common/animated-section";
 import { ClientPageWrapper } from "@/components/common/client-page-wrapper";
 import { Icons } from "@/components/common/icons";
+import { LocalizedText } from "@/components/common/localized-text";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { certifications } from "@/config/certifications";
@@ -28,16 +29,19 @@ export default function CertificationsPage() {
         >
           <div className="mx-auto max-w-3xl">
             <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              01 / Verified credentials
+              <LocalizedText id="certifications.verified" fallback="01 / Verified credentials" />
             </p>
 
             <h1 className="font-heading text-3xl sm:text-4xl font-medium tracking-[-0.04em]">
-              Certifications
+              <LocalizedText id="pages.certifications.title" fallback="Certifications" />
             </h1>
 
             <p className="mt-4 max-w-xl text-muted-foreground">
+              <LocalizedText id="certifications.description" fallback="Professional certifications from SCRUMstudy and CDOSS — each with a public verification link you can check independently." />
+              <span className="hidden">
               Professional certifications from SCRUMstudy and CDOSS — each with a
               public verification link you can check independently.
+              </span>
             </p>
 
             <ul className="mt-10 space-y-8">
@@ -73,7 +77,7 @@ export default function CertificationsPage() {
                               "h-9 rounded-lg text-xs"
                             )}
                           >
-                            Verify credential
+                            <LocalizedText id="common.verifyCredential" fallback="Verify credential" />
                             <Icons.externalLink className="ml-2 h-3.5 w-3.5" />
                           </Link>
                         </div>

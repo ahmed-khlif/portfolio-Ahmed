@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { AnimatedSection } from "@/components/common/animated-section";
 import { Icons } from "@/components/common/icons";
+import { useLanguage } from "@/components/common/language-provider";
 import {
   skillHoverFallback,
   skillHoverStyles,
@@ -17,6 +18,7 @@ interface TimelineProps {
 }
 
 const Timeline: React.FC<TimelineProps> = ({ experiences }) => {
+  const { t } = useLanguage();
   // Sort experiences by date (most recent first)
   const sortedExperiences = [...experiences].sort((a, b) => {
     const dateA = a.endDate === "Present" ? new Date() : a.endDate;
@@ -78,7 +80,7 @@ const Timeline: React.FC<TimelineProps> = ({ experiences }) => {
                             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
                             <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
                           </span>
-                          Current
+                          {t("common.current")}
                         </span>
                       )}
                     </div>
@@ -112,7 +114,7 @@ const Timeline: React.FC<TimelineProps> = ({ experiences }) => {
                     {/* cta */}
                     <span className="mt-5 inline-flex items-center justify-between gap-3">
                       <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground">
-                        View details
+                        {t("common.viewDetails")}
                         <Icons.chevronRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
                       </span>
                     </span>

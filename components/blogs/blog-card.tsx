@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Icons } from "@/components/common/icons";
+import { useLanguage } from "@/components/common/language-provider";
 import { BlogMeta } from "@/lib/blogs";
 
 interface BlogCardProps {
@@ -11,7 +12,9 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ blog }: BlogCardProps) {
-  const formattedDate = new Date(blog.date).toLocaleDateString("en-US", {
+  const { language, t } = useLanguage();
+  const locale = language === "ar" ? "ar-TN" : language === "fr" ? "fr-FR" : "en-US";
+  const formattedDate = new Date(blog.date).toLocaleDateString(locale, {
     month: "long",
     day: "numeric",
     year: "numeric",
@@ -41,7 +44,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
         {/* Content */}
         <div className="p-5 flex flex-col flex-grow gap-3">
           {/* Tags */}
-          <div className="flex flex-wrap gap-1.5" aria-label="Tags">
+          <div className="flex flex-wrap gap-1.5" aria-label={t("blogs.tags")}>
             {blog.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
@@ -77,7 +80,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
               {blog.readingTime && (
                 <span className="flex items-center gap-1">
                   <Icons.clock className="w-3.5 h-3.5" />
-                  {blog.readingTime} min read
+                  {blog.readingTime} {t("blogs.minRead")}
                 </span>
               )}
             </div>
@@ -86,7 +89,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
               className="inline-flex items-center gap-0.5 text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors duration-200"
               aria-hidden="true"
             >
-              Read
+              {t("blogs.read")}
               <Icons.chevronRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5" />
             </span>
           </div>

@@ -4,17 +4,23 @@ import Link from "next/link";
 import * as React from "react";
 
 import { Icons } from "@/components/common/icons";
+import { useLanguage } from "@/components/common/language-provider";
 import { buttonVariants } from "@/components/ui/button";
 import { routesConfig } from "@/config/routes";
+import { getRouteTranslationKey } from "@/config/i18n";
 import { siteConfig } from "@/config/site";
 import { SocialLinks } from "@/config/socials";
 import { cn } from "@/lib/utils";
 
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
-  const navItems = [...routesConfig.mainNav, ...routesConfig.secondaryNav];
+  const { t } = useLanguage();
+  const navItems = [...routesConfig.mainNav, ...routesConfig.secondaryNav].map((item) => ({
+    ...item,
+    title: t(getRouteTranslationKey(item.href)),
+  }));
 
   return (
-    <footer aria-label="Site footer" className={cn("border-t border-border/70", className)}>
+    <footer aria-label={t("common.portfolio")} className={cn("border-t border-border/70", className)}>
       <div className="container flex flex-col gap-10 py-12">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
           <div className="space-y-3">
@@ -22,8 +28,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               {siteConfig.authorName}
             </Link>
             <p className="max-w-sm text-sm leading-6 text-muted-foreground">
-              {siteConfig.role} building AI-powered applications and scalable web &amp; mobile
-              systems from {siteConfig.location}.
+              {t("footer.description", { role: siteConfig.role, location: siteConfig.location })}
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               {SocialLinks.map((item) => (
@@ -32,7 +37,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
                   href={item.link}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label={`Visit ${item.name}`}
+                  aria-label={t("common.visit", { name: item.name })}
                   className="grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <item.icon className="size-4" />
@@ -42,9 +47,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           </div>
 
           <nav aria-label="Footer navigation" className="space-y-3">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Explore
-            </p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{t("common.explore")}</p>
             <ul className="space-y-2 text-sm">
               {navItems.map((item: { title: string; href: string }) => (
                 <li key={item.href}>
@@ -60,9 +63,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           </nav>
 
           <div className="space-y-3">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Get in touch
-            </p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{t("common.getInTouch")}</p>
             <ul className="space-y-2 text-sm">
               <li>
                 <a
@@ -89,7 +90,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             </ul>
             <div className="pt-4">
               <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                What I&apos;m listening to
+                {t("footer.whatListening")}
               </p>
               <div className="h-[152px] overflow-hidden rounded-xl border border-border bg-[#121212]">
                 <iframe
@@ -114,7 +115,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-10 w-fit rounded-full px-4")}
-            aria-label="Back to top"
+            aria-label={t("common.backToTop")}
           >
             Back to top ↑
           </button>

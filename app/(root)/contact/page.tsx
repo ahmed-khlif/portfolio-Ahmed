@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 import { Icons } from "@/components/common/icons";
+import { LocalizedText } from "@/components/common/localized-text";
 import PageContainer from "@/components/common/page-container";
 import { ContactForm } from "@/components/forms/contact-form";
 import { buttonVariants } from "@/components/ui/button";
@@ -50,6 +51,7 @@ const channels = [
 export default function ContactPage() {
   return (
     <PageContainer
+      translationKey="contact"
       title={pagesConfig.contact.title}
       description={pagesConfig.contact.description}
     >
@@ -61,7 +63,7 @@ export default function ContactPage() {
         <aside className="flex flex-col gap-8 border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Direct channels
+              <LocalizedText id="contact.directChannels" fallback="Direct channels" />
             </p>
             <ul className="mt-4 space-y-1">
               {channels.map((channel) => {
@@ -92,23 +94,23 @@ export default function ContactPage() {
 
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Open to
+              <LocalizedText id="contact.openTo" fallback="Open to" />
             </p>
             <p className="mt-3 text-base leading-7">{siteConfig.availability}.</p>
           </div>
 
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Response time
+              <LocalizedText id="contact.responseTime" fallback="Response time" />
             </p>
             <p className="mt-3 text-muted-foreground">
-              Usually within two working days ({siteConfig.timezone}).
+              <LocalizedText id="contact.responseCopy" fallback={`Usually within two working days (${siteConfig.timezone}).`} />
             </p>
           </div>
 
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Based in
+              <LocalizedText id="contact.basedIn" fallback="Based in" />
             </p>
             <p className="mt-3 text-muted-foreground">{siteConfig.location}</p>
           </div>
@@ -117,7 +119,7 @@ export default function ContactPage() {
             href="/projects"
             className={cn(buttonVariants({ variant: "outline" }), "w-fit rounded-none")}
           >
-            View selected work
+            <LocalizedText id="common.viewSelectedWork" fallback="View selected work" />
           </Link>
         </aside>
       </div>

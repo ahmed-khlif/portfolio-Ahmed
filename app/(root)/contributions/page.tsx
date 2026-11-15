@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 export default function ContributonsPage() {
   return (
     <PageContainer
+      translationKey="contributions"
       title={pagesConfig.contributions.title}
       description={pagesConfig.contributions.description}
     >

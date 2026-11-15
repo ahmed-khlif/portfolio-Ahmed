@@ -1,5 +1,6 @@
 import { CommandMenu } from "@/components/common/command-menu";
 import { MainNav } from "@/components/common/main-nav";
+import { LanguageSwitcher } from "@/components/common/language-switcher";
 import { ModeToggle } from "@/components/common/mode-toggle";
 import { PortfolioAssistant } from "@/components/common/portfolio-assistant";
 import { ScrollControls } from "@/components/common/scroll-controls";
@@ -26,6 +27,7 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
         <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center px-4 py-3 sm:px-6 lg:px-8">
           <MainNav items={routesConfig.mainNav}>
             <div className="flex shrink-0 items-center gap-1.5">
+              <LanguageSwitcher />
               <CommandMenu />
               <ModeToggle />
             </div>

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 
 import { Icons } from "@/components/common/icons";
+import { useLanguage } from "@/components/common/language-provider";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -19,16 +20,17 @@ import {
  * shipped with seven themes but only exposed light/dark in the UI.
  */
 const themes = [
-  { name: "light", label: "Light", icon: Icons.sun },
-  { name: "dark", label: "Dark", icon: Icons.moon },
-  { name: "paper", label: "Paper", icon: Icons.paper },
-  { name: "retro", label: "Retro", icon: Icons.retro },
-  { name: "aurora", label: "Aurora", icon: Icons.aurora },
-  { name: "synthwave", label: "Synthwave", icon: Icons.synthwave },
-  { name: "cyberpunk", label: "Cyberpunk", icon: Icons.cyberpunk },
+  { name: "light", label: "Light", translationKey: "theme.light", icon: Icons.sun },
+  { name: "dark", label: "Dark", translationKey: "theme.dark", icon: Icons.moon },
+  { name: "paper", label: "Paper", translationKey: "theme.paper", icon: Icons.paper },
+  { name: "retro", label: "Retro", translationKey: "theme.retro", icon: Icons.retro },
+  { name: "aurora", label: "Aurora", translationKey: "theme.aurora", icon: Icons.aurora },
+  { name: "synthwave", label: "Synthwave", translationKey: "theme.synthwave", icon: Icons.synthwave },
+  { name: "cyberpunk", label: "Cyberpunk", translationKey: "theme.cyberpunk", icon: Icons.cyberpunk },
 ];
 
 export function ModeToggle() {
+  const { t } = useLanguage();
   const { setTheme, theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -64,14 +66,14 @@ export function ModeToggle() {
           return (
             <DropdownMenuItem key={item.name} onClick={() => setTheme(item.name)}>
               <ThemeIcon className="mr-2 h-4 w-4" />
-              <span>{item.label}</span>
+              <span>{t(item.translationKey)}</span>
             </DropdownMenuItem>
           );
         })}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => setTheme("system")}>
           <Icons.laptop className="mr-2 h-4 w-4" />
-          <span>System</span>
+          <span>{t("theme.system")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -4,6 +4,7 @@ import * as React from "react";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/components/common/language-provider";
 import { usePathname } from "next/navigation";
 
 interface MobileNavProps {
@@ -13,13 +14,14 @@ interface MobileNavProps {
 }
 
 export function MobileNav({ items, children, onClose }: MobileNavProps) {
+  const { t } = useLanguage();
   const pathname = usePathname();
 
   return (
     <>
       <button
         type="button"
-        aria-label="Close navigation menu"
+        aria-label={t("nav.closeMenu")}
         className="fixed inset-0 z-[55] bg-foreground/5 backdrop-blur-[2px] md:hidden"
         onClick={onClose}
       />
@@ -27,7 +29,7 @@ export function MobileNav({ items, children, onClose }: MobileNavProps) {
         id="mobile-navigation"
         role="dialog"
         aria-modal="true"
-        aria-label="Mobile navigation"
+        aria-label={t("nav.openMenu")}
         className="fixed inset-x-3 top-[calc(4rem+0.75rem+env(safe-area-inset-top))] z-[60] md:hidden"
       >
         <div className="mx-auto grid max-h-[calc(100dvh-6.5rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-sm gap-4 overflow-y-auto overscroll-contain rounded-2xl border border-border/70 bg-popover p-4 text-popover-foreground shadow-2xl shadow-foreground/15">
@@ -41,7 +43,7 @@ export function MobileNav({ items, children, onClose }: MobileNavProps) {
             />
             <span className="font-heading text-2xl font-semibold tracking-tight">{siteConfig.authorName}</span>
           </Link>
-          <nav aria-label="Mobile navigation links" className="grid grid-flow-row auto-rows-max text-sm">
+          <nav aria-label={t("nav.openMenu")} className="grid grid-flow-row auto-rows-max text-sm">
             {items.map((item, index) => (
               <Link
                 key={index}

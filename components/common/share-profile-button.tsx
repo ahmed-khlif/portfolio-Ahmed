@@ -4,9 +4,11 @@ import { Check, Share2 } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/components/common/language-provider";
 import { siteConfig } from "@/config/site";
 
 export function ShareProfileButton() {
+  const { t } = useLanguage();
   const [shared, setShared] = useState(false);
 
   async function shareProfile() {
@@ -32,7 +34,7 @@ export function ShareProfileButton() {
   return (
     <Button type="button" variant="outline" onClick={shareProfile} className="h-11 rounded-none">
       {shared ? <Check data-icon="inline-start" /> : <Share2 data-icon="inline-start" />}
-      {shared ? "Profile link copied" : "Share profile"}
+      {shared ? t("home.profileCopied") : t("home.shareProfile")}
     </Button>
   );
 }

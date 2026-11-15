@@ -4,6 +4,7 @@ import { Bot, Loader2, MessageCircle, Send, Sparkles, X } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
+import { useLanguage } from "@/components/common/language-provider";
 import { cn } from "@/lib/utils";
 
 type ChatMessage = {
@@ -12,11 +13,11 @@ type ChatMessage = {
   content: string;
 };
 
-const suggestions = [
-  "What does Ahmed build?",
-  "What are his strongest skills?",
-  "Is he available for freelance work?",
-  "How can I contact him?",
+const suggestionKeys = [
+  "assistant.whatBuild",
+  "assistant.skills",
+  "assistant.freelance",
+  "assistant.contact",
 ];
 
 const welcomeMessage: ChatMessage = {
@@ -159,6 +160,7 @@ function AssistantMessageContent({ content }: { content: string }) {
 }
 
 export function PortfolioAssistant() {
+  const { language, t } = useLanguage();
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -167,6 +169,12 @@ export function PortfolioAssistant() {
   const panelRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMessages((current) => current.map((message) => (
+      message.id === "welcome" ? { ...message, content: t("assistant.welcome") } : message
+    )));
+  }, [language, t]);
 
   useEffect(() => {
     if (!open) return;
@@ -244,9 +252,9 @@ export function PortfolioAssistant() {
   return (
     <>
       {open ? (
-        <button
+          <button
           type="button"
-          aria-label="Close portfolio assistant"
+          aria-label={t("common.close")}
           className="fixed inset-0 z-[68] bg-foreground/10 backdrop-blur-[2px] sm:hidden"
           onClick={() => setOpen(false)}
         />
@@ -277,16 +285,16 @@ export function PortfolioAssistant() {
                 <Sparkles className="size-4" aria-hidden="true" />
               </span>
               <div className="min-w-0">
-                <p className="font-heading text-lg font-semibold tracking-tight">Ask about Ahmed</p>
+                <p className="font-heading text-lg font-semibold tracking-tight">{t("assistant.title")}</p>
                 <p className="mt-0.5 flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <span className="size-1.5 rounded-full bg-emerald-500" aria-hidden="true" /> Portfolio assistant
+                  <span className="size-1.5 rounded-full bg-emerald-500" aria-hidden="true" /> {t("assistant.status")}
                 </p>
               </div>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              aria-label="Close portfolio assistant"
+              aria-label={t("common.close")}
               className="grid size-9 shrink-0 place-items-center rounded-full bg-background/60 text-muted-foreground transition-colors hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <X className="size-4" aria-hidden="true" />
@@ -321,7 +329,7 @@ export function PortfolioAssistant() {
               <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
                 <span className="grid size-7 place-items-center rounded-full bg-muted"><Bot className="size-3.5" aria-hidden="true" /></span>
                 <span className="inline-flex items-center gap-1.5 rounded-2xl rounded-tl-md border border-border/60 bg-muted/80 px-3.5 py-2.5 shadow-sm">
-                  Thinking <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
+                  {t("assistant.thinking")} <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
                 </span>
               </div>
             ) : null}
@@ -330,14 +338,14 @@ export function PortfolioAssistant() {
 
           {messages.length === 1 ? (
             <div className="flex shrink-0 gap-2 overflow-x-auto border-t border-border/60 bg-background/90 px-4 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible sm:px-4">
-              {suggestions.map((suggestion) => (
+              {suggestionKeys.map((suggestionKey) => (
                 <button
                   type="button"
-                  key={suggestion}
-                  onClick={() => sendMessage(suggestion)}
+                  key={suggestionKey}
+                  onClick={() => sendMessage(t(suggestionKey))}
                   className="shrink-0 rounded-full border border-border bg-background px-3 py-2 text-left text-xs text-muted-foreground transition-colors hover:border-foreground/30 hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  {suggestion}
+                  {t(suggestionKey)}
                 </button>
               ))}
             </div>
@@ -354,15 +362,15 @@ export function PortfolioAssistant() {
               ref={inputRef}
               value={input}
               onChange={(event) => setInput(event.target.value)}
-              placeholder="Ask a quick question..."
-              aria-label="Ask about Ahmed"
+              placeholder={t("assistant.placeholder")}
+              aria-label={t("assistant.title")}
               maxLength={1200}
               className="h-11 min-w-0 flex-1 rounded-full border border-border bg-muted/35 px-4 text-base outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground/40 focus:bg-background focus:ring-2 focus:ring-ring/30 sm:text-sm"
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              aria-label="Send question"
+              aria-label={t("common.send")}
               className="grid size-11 shrink-0 place-items-center rounded-full bg-foreground text-background transition-transform hover:scale-105 disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <Send className="size-4" aria-hidden="true" />
@@ -375,14 +383,14 @@ export function PortfolioAssistant() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          aria-label="Ask about Ahmed"
-          title="Ask about Ahmed"
+          aria-label={t("assistant.title")}
+          title={t("assistant.title")}
           className="group flex size-12 items-center justify-center rounded-full border border-foreground/10 bg-foreground text-sm font-medium text-background shadow-xl shadow-foreground/20 transition-all hover:-translate-y-1 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-14 sm:w-auto sm:justify-start sm:gap-2 sm:px-5"
         >
           <span className="grid size-8 place-items-center rounded-full bg-background/15">
             <MessageCircle className="size-4 transition-transform group-hover:rotate-[-8deg]" aria-hidden="true" />
           </span>
-          <span className="hidden sm:inline">Ask about Ahmed</span>
+          <span className="hidden sm:inline">{t("assistant.title")}</span>
         </button>
       ) : null}
     </div>

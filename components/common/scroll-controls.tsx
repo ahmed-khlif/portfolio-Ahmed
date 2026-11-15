@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 
 import { Icons } from "@/components/common/icons";
+import { useLanguage } from "@/components/common/language-provider";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function ScrollControls() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export function ScrollControls() {
 
   return (
     <div className={cn("fixed bottom-28 right-5 z-40 flex translate-y-4 flex-col gap-2 opacity-0 transition-all duration-300 sm:bottom-28 sm:right-7", visible && "translate-y-0 opacity-100")}>
-      <Button variant="outline" size="icon" className="size-11 rounded-full border-border/70 bg-background/90 shadow-xl shadow-foreground/10 backdrop-blur transition-colors hover:bg-foreground hover:text-background" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Back to top" title="Back to top">
+      <Button variant="outline" size="icon" className="size-11 rounded-full border-border/70 bg-background/90 shadow-xl shadow-foreground/10 backdrop-blur transition-colors hover:bg-foreground hover:text-background" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label={t("common.backToTop")} title={t("common.backToTop")}>
         <Icons.arrowUp className="size-4" />
       </Button>
     </div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Icons } from "@/components/common/icons";
+import { useLanguage } from "@/components/common/language-provider";
 import { Button } from "@/components/ui/button";
 import ChipContainer from "@/components/ui/chip-container";
 import { ProjectInterface } from "@/config/projects";
@@ -14,6 +15,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
+  const { t } = useLanguage();
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -41,7 +43,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </motion.div>
       </div>
       <div className="flex flex-grow flex-col space-y-4 p-6 sm:p-7">
-        <div className="flex items-start justify-between gap-4"><p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{project.type}</p><span className="font-mono text-[10px] text-muted-foreground">{String(project.category.length).padStart(2, "0")} tags</span></div>
+        <div className="flex items-start justify-between gap-4"><p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{project.type}</p><span className="font-mono text-[10px] text-muted-foreground">{String(project.category.length).padStart(2, "0")} {t("common.tags")}</span></div>
         <h3 className="font-heading text-3xl font-medium leading-[0.98] tracking-[-0.05em] text-foreground">
           {project.companyName}
         </h3>
@@ -58,7 +60,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </div>
           <Link href={`/projects/${project.id}`} className="mt-auto inline-flex min-h-11 items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
           <span className="mt-2 inline-flex w-full items-center justify-between gap-2 border-t border-border pt-3 text-xs font-medium uppercase tracking-[0.12em] transition-all group-hover:gap-3">
-            Explore case study <Icons.chevronRight className="size-4" />
+            {t("common.exploreCaseStudy")} <Icons.chevronRight className="size-4" />
           </span>
         </Link>
       </div>

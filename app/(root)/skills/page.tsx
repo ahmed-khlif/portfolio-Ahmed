@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 export default function SkillsPage() {
   return (
     <PageContainer
+      translationKey="skills"
       title={pagesConfig.skills.title}
       description={pagesConfig.skills.description}
     >
