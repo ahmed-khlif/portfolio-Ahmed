@@ -1,4 +1,5 @@
 import { CommandMenu } from "@/components/common/command-menu";
+import { LocalizedText } from "@/components/common/localized-text";
 import { MainNav } from "@/components/common/main-nav";
 import { LanguageSwitcher } from "@/components/common/language-switcher";
 import { ModeToggle } from "@/components/common/mode-toggle";
@@ -20,7 +21,7 @@ export default function MarketingLayout({ children }: MarketingLayoutProps) {
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-background focus:px-4 focus:py-3 focus:text-sm focus:font-medium focus:shadow-lg"
         id="gustavo-skip-link"
       >
-        Skip to content
+        <LocalizedText id="common.skipToContent" fallback="Skip to content" />
       </a>
 
       <header className="fixed inset-x-0 top-0 z-50 w-full border-b border-border/60 bg-background/90 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 md:isolate">

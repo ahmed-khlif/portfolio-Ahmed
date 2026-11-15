@@ -13,8 +13,8 @@ export function ShareProfileButton() {
 
   async function shareProfile() {
     const shareData = {
-      title: `${siteConfig.authorName} — ${siteConfig.role}`,
-      text: `Explore ${siteConfig.authorName}'s work in full-stack engineering, applied AI and developer tooling.`,
+      title: `${siteConfig.authorName} — ${t("site.role")}`,
+      text: `${t("home.seeWork")}: ${siteConfig.authorName} — ${t("home.heroDescription")}`,
       url: window.location.origin,
     };
 

@@ -241,7 +241,7 @@ export function PortfolioAssistant() {
         {
           id: `assistant-error-${Date.now()}`,
           role: "assistant",
-          content: "I couldn’t answer that right now. Try again, or use the contact page to reach Ahmed directly.",
+          content: t("assistant.error"),
         },
       ]);
     } finally {
@@ -272,7 +272,7 @@ export function PortfolioAssistant() {
         <motion.section
           role="dialog"
           aria-modal="true"
-          aria-label="Ask about Ahmed"
+          aria-label={t("assistant.title")}
           initial={prefersReducedMotion ? false : { opacity: 0, y: 24, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}

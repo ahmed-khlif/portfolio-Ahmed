@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { Icons } from "@/components/common/icons";
 import { useLanguage } from "@/components/common/language-provider";
+import { blogTranslations, resolveLocalized } from "@/config/content-translations";
 import { BlogMeta } from "@/lib/blogs";
 
 interface BlogCardProps {
@@ -14,6 +15,9 @@ interface BlogCardProps {
 export default function BlogCard({ blog }: BlogCardProps) {
   const { language, t } = useLanguage();
   const locale = language === "ar" ? "ar-TN" : language === "fr" ? "fr-FR" : "en-US";
+  const copy = blogTranslations[blog.slug];
+  const localizedTitle = resolveLocalized(copy?.title, language, blog.title);
+  const localizedDescription = resolveLocalized(copy?.description, language, blog.description);
   const formattedDate = new Date(blog.date).toLocaleDateString(locale, {
     month: "long",
     day: "numeric",
@@ -33,7 +37,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
           <div className="relative w-full h-[180px] flex-shrink-0 overflow-hidden bg-muted">
             <Image
               src={blog.coverImage}
-              alt={blog.title}
+              alt={localizedTitle}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
@@ -62,12 +66,12 @@ export default function BlogCard({ blog }: BlogCardProps) {
 
           {/* Title */}
           <h3 className="text-lg font-bold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors duration-200">
-            {blog.title}
+            {localizedTitle}
           </h3>
 
           {/* Description */}
           <p className="text-sm text-muted-foreground line-clamp-3 flex-grow leading-relaxed">
-            {blog.description}
+            {localizedDescription}
           </p>
 
           {/* Footer: date + read time + arrow */}

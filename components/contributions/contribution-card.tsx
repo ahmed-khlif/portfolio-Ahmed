@@ -1,6 +1,8 @@
 import Link from "next/link";
 
 import { Icons } from "@/components/common/icons";
+import { LocalizedValue } from "@/components/common/localized-value";
+import { contributionTranslations } from "@/config/content-translations";
 import { contributionsInterface } from "@/config/contributions";
 
 interface ContributionCardProps {
@@ -42,7 +44,10 @@ export default function ContributionCard({
               </div>
               <div className="space-y-3 sm:space-y-4 min-w-0">
                 <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3 break-words">
-                  {contribution.contibutionDescription}
+                  <LocalizedValue
+                    values={contributionTranslations[contribution.repo]}
+                    fallback={contribution.contibutionDescription}
+                  />
                 </p>
                 <p className="text-xs sm:text-sm text-muted-foreground flex space-x-2 items-center min-w-0">
                   <Icons.gitOrgBuilding

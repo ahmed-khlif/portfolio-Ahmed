@@ -5,9 +5,11 @@ import { AnimatedSection } from "@/components/common/animated-section";
 import { ClientPageWrapper } from "@/components/common/client-page-wrapper";
 import { Icons } from "@/components/common/icons";
 import { LocalizedText } from "@/components/common/localized-text";
+import { LocalizedValue } from "@/components/common/localized-value";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { certifications } from "@/config/certifications";
+import { certificationTranslations } from "@/config/content-translations";
 import { pagesConfig } from "@/config/pages";
 import { siteConfig } from "@/config/site";
 
@@ -45,26 +47,28 @@ export default function CertificationsPage() {
             </p>
 
             <ul className="mt-10 space-y-8">
-              {certifications.map((cert) => (
-                <li
-                  key={cert.name}
-                  className="rounded-xl border border-border/70 bg-background/50 p-6"
-                >
-                  <div className="flex items-start gap-4">
-                    <Icons.check
-                      className="mt-1 size-5 shrink-0 text-foreground"
-                      aria-hidden="true"
-                    />
-                    <div className="min-w-0">
-                      <p className="text-base font-medium text-foreground">
-                        {cert.name}
-                      </p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {cert.issuer} · {cert.date}
-                      </p>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                        {cert.credential}
-                      </p>
+              {certifications.map((cert) => {
+                const copy = certificationTranslations[cert.name];
+                return (
+                  <li
+                    key={cert.name}
+                    className="rounded-xl border border-border/70 bg-background/50 p-6"
+                  >
+                    <div className="flex items-start gap-4">
+                      <Icons.check
+                        className="mt-1 size-5 shrink-0 text-foreground"
+                        aria-hidden="true"
+                      />
+                      <div className="min-w-0">
+                        <p className="text-base font-medium text-foreground">
+                          <LocalizedValue values={copy?.name} fallback={cert.name} />
+                        </p>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          {cert.issuer} · <LocalizedValue values={copy?.date} fallback={cert.date} />
+                        </p>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                          <LocalizedValue values={copy?.credential} fallback={cert.credential} />
+                        </p>
 
                       {cert.href && (
                         <div className="mt-4">
@@ -82,23 +86,23 @@ export default function CertificationsPage() {
                           </Link>
                         </div>
                       )}
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
 
             <div className="mt-12 border-t border-border/60 pt-8">
               <p className="text-sm leading-relaxed text-muted-foreground">
-                Want the fuller picture? The{" "}
+                <LocalizedText id="certifications.fullerBefore" fallback="Want the fuller picture? The" />{" "}
                 <Link
                   href="/education"
                   className="text-foreground underline-offset-4 hover:underline font-medium"
                 >
                   education timeline
                 </Link>{" "}
-                covers degrees, the certifications above and the languages I work
-                in.
+                <LocalizedText id="certifications.fullerAfter" fallback="covers degrees, the certifications above and the languages I work in." />
               </p>
             </div>
           </div>

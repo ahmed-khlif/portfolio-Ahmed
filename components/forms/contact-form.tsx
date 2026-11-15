@@ -69,17 +69,16 @@ export function ContactForm() {
 
       storeModal.onOpen({
         title: t("contact.messageSent"),
-        description:
-          "Thanks for reaching out — I appreciate it and will get back to you within two working days.",
+        description: t("contact.messageSentDescription"),
         icon: Icons.successAnimated,
       });
     } catch (err) {
       const reason =
-        err instanceof Error ? err.message : "Your message could not be sent.";
+        err instanceof Error ? err.message : t("contact.sendError");
 
       storeModal.onOpen({
         title: t("contact.somethingWentWrong"),
-        description: `${reason} You can also email me directly at ${siteConfig.email}.`,
+        description: `${reason} ${t("contact.sendError")} ${siteConfig.email}`,
         icon: Icons.close,
       });
     }

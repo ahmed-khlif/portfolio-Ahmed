@@ -8,6 +8,7 @@ import { Icons } from "@/components/common/icons";
 import { useLanguage } from "@/components/common/language-provider";
 import { Button } from "@/components/ui/button";
 import ChipContainer from "@/components/ui/chip-container";
+import { categoryTranslations, projectTranslations, resolveLocalized } from "@/config/content-translations";
 import { ProjectInterface } from "@/config/projects";
 
 interface ProjectCardProps {
@@ -15,8 +16,15 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const prefersReducedMotion = useReducedMotion();
+  const copy = projectTranslations[project.id];
+  const localizedCategories = project.category.map((category) => resolveLocalized(categoryTranslations[category], language, category));
+  const typeKey = project.type === "Professional"
+    ? "common.typeProfessional"
+    : project.type === "Freelance"
+      ? "common.typeFreelance"
+      : "common.typePersonal";
 
   return (
     <motion.article
@@ -43,20 +51,20 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </motion.div>
       </div>
       <div className="flex flex-grow flex-col space-y-4 p-6 sm:p-7">
-        <div className="flex items-start justify-between gap-4"><p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{project.type}</p><span className="font-mono text-[10px] text-muted-foreground">{String(project.category.length).padStart(2, "0")} {t("common.tags")}</span></div>
+        <div className="flex items-start justify-between gap-4"><p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{t(typeKey)}</p><span className="font-mono text-[10px] text-muted-foreground">{String(project.category.length).padStart(2, "0")} {t("common.tags")}</span></div>
         <h3 className="font-heading text-3xl font-medium leading-[0.98] tracking-[-0.05em] text-foreground">
           {project.companyName}
         </h3>
         <p className="line-clamp-3 flex-grow text-sm leading-7 text-muted-foreground">
-          {project.shortDescription}
+          {resolveLocalized(copy?.shortDescription, language, project.shortDescription)}
         </p>
         {project.metrics?.[0] ? (
           <p className="border-l-2 border-foreground/20 pl-3 text-xs font-medium leading-5 text-foreground">
-            {project.metrics[0]}
+            {resolveLocalized(copy?.metrics?.[0], language, project.metrics[0])}
           </p>
         ) : null}
         <div className="flex flex-wrap gap-2">
-          <ChipContainer textArr={project.category} />
+          <ChipContainer textArr={localizedCategories} />
         </div>
           <Link href={`/projects/${project.id}`} className="mt-auto inline-flex min-h-11 items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
           <span className="mt-2 inline-flex w-full items-center justify-between gap-2 border-t border-border pt-3 text-xs font-medium uppercase tracking-[0.12em] transition-all group-hover:gap-3">
@@ -64,7 +72,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </span>
         </Link>
       </div>
-      <div className="absolute left-4 top-4 hidden border border-background/60 bg-background/85 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground backdrop-blur-sm md:block">{project.category[0]}</div>
+      <div className="absolute left-4 top-4 hidden border border-background/60 bg-background/85 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground backdrop-blur-sm md:block">{localizedCategories[0]}</div>
     </motion.article>
   );
 }

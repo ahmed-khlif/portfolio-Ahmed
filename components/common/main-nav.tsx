@@ -97,13 +97,13 @@ export function MainNav({ items, children }: MainNavProps) {
               {siteConfig.authorName}
             </span>
             <span className="mt-1 whitespace-nowrap text-[11px] font-medium tracking-wide text-muted-foreground">
-              {siteConfig.role}
+              {t("site.role")}
             </span>
           </span>
         </Link>
       </motion.div>
       {localizedItems?.length ? (
-        <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 items-center justify-center gap-1 md:flex">
+        <nav aria-label={t("common.mainNavigation")} className="hidden min-w-0 flex-1 items-center justify-center gap-1 md:flex">
           {localizedItems.map((item, index) => (
             <motion.div
               key={index}

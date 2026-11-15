@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import CustomTooltip from "@/components/ui/custom-tooltip";
+import { useLanguage } from "@/components/common/language-provider";
 import { SocialLinks } from "@/config/socials";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,7 @@ const hoverStyles: Record<string, string> = {
 };
 
 export function SocialDock() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -29,14 +31,14 @@ export function SocialDock() {
 
   return (
     <div
-      aria-label="Social links"
+      aria-label={t("common.socialLinks")}
       className={cn(
         "pointer-events-none fixed bottom-5 left-1/2 z-40 -translate-x-1/2 translate-y-5 opacity-0 transition-all duration-500 ease-out sm:bottom-7",
         visible && "pointer-events-auto translate-y-0 opacity-100",
       )}
     >
       <div className="flex items-center gap-1 rounded-full border border-border/70 bg-background/85 px-2 py-1.5 shadow-xl shadow-foreground/5 backdrop-blur-xl">
-        <span className="hidden px-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:inline">Elsewhere</span>
+        <span className="hidden px-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:inline">{t("common.elsewhere")}</span>
         {SocialLinks.map((item) => (
           <CustomTooltip icon={item.icon} text={item.username} key={item.name}>
             <Link

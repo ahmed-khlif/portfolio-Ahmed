@@ -7,6 +7,7 @@ import { AnimatedSection } from "@/components/common/animated-section";
 import { AnimatedText } from "@/components/common/animated-text";
 import { ClientPageWrapper } from "@/components/common/client-page-wrapper";
 import { LocalizedText } from "@/components/common/localized-text";
+import { LocalizedValue } from "@/components/common/localized-value";
 import { Icons } from "@/components/common/icons";
 import { ShareProfileButton } from "@/components/common/share-profile-button";
 import { EducationTimeline } from "@/components/education/education-timeline";
@@ -14,6 +15,7 @@ import ExperienceTimeline from "@/components/experience/timeline";
 import ProjectCard from "@/components/projects/project-card";
 import { buttonVariants } from "@/components/ui/button";
 import { certifications } from "@/config/certifications";
+import { certificationTranslations, skillTranslations } from "@/config/content-translations";
 import { experiences } from "@/config/experience";
 import { pagesConfig } from "@/config/pages";
 import { featuredProjects } from "@/config/projects";
@@ -51,15 +53,15 @@ function SectionHeading({
 }
 
 const focusAreas = [
-  "Full-stack delivery",
-  "Applied AI systems",
-  "CI/CD & DevOps automation",
+  { key: "home.focusFullStack", fallback: "Full-stack delivery" },
+  { key: "home.focusAi", fallback: "Applied AI systems" },
+  { key: "home.focusDevOps", fallback: "CI/CD & DevOps automation" },
 ];
 
 const spokenLanguages = [
-  { name: "Arabic", level: "Native" },
-  { name: "English", level: "Fluent" },
-  { name: "French", level: "Proficient" },
+  { nameKey: "home.langArabic", name: "Arabic", levelKey: "home.levelNative", level: "Native" },
+  { nameKey: "home.langEnglish", name: "English", levelKey: "home.levelFluent", level: "Fluent" },
+  { nameKey: "home.langFrench", name: "French", levelKey: "home.levelProficient", level: "Proficient" },
 ];
 
 export default function IndexPage() {
@@ -121,7 +123,7 @@ export default function IndexPage() {
         <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-20">
           <div className="max-w-4xl">
             <AnimatedText as="p" className="mb-6 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              <span className="inline-block size-2 rounded-full bg-foreground motion-safe:animate-pulse" aria-hidden="true" /> {siteConfig.role} / {siteConfig.location}
+              <span className="inline-block size-2 rounded-full bg-foreground motion-safe:animate-pulse" aria-hidden="true" /> <LocalizedText id="site.role" fallback={siteConfig.role} /> / {siteConfig.location}
             </AnimatedText>
             <AnimatedText as="h1" delay={0.1} className="max-w-4xl font-heading text-[clamp(3.4rem,8.2vw,7.6rem)] font-medium leading-[0.9] tracking-[-0.075em]">
               <LocalizedText id="home.heroTitle" fallback="Building AI-powered products." />
@@ -159,7 +161,7 @@ export default function IndexPage() {
             </div>
             <div className="mt-4 flex items-start justify-between gap-4 text-xs text-muted-foreground">
               <LocalizedText id="common.currently" fallback="Currently" />
-              <span className="max-w-[10rem] text-right text-foreground">{siteConfig.availability}</span>
+              <span className="max-w-[10rem] text-right text-foreground"><LocalizedText id="site.availability" fallback={siteConfig.availability} /></span>
             </div>
             <div className="mt-3 flex items-start justify-between gap-4 text-xs text-muted-foreground">
               <LocalizedText id="common.basedIn" fallback="Based in" />
@@ -171,15 +173,15 @@ export default function IndexPage() {
         <div className="mt-16 border-t border-border pt-5">
           <div className="grid gap-3 sm:grid-cols-3">
             {focusAreas.map((item, index) => (
-              <div key={item} tabIndex={0} className="group rounded-lg px-3 py-2 transition-all duration-300 hover:-translate-y-1 hover:bg-muted/70 focus-visible:-translate-y-1 focus-visible:bg-muted/70 focus-visible:outline-none">
+              <div key={item.key} tabIndex={0} className="group rounded-lg px-3 py-2 transition-all duration-300 hover:-translate-y-1 hover:bg-muted/70 focus-visible:-translate-y-1 focus-visible:bg-muted/70 focus-visible:outline-none">
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors group-hover:text-foreground">0{index + 1}</p>
-                <p className="mt-2 text-muted-foreground transition-colors group-hover:text-foreground">{item}</p>
+                <p className="mt-2 text-muted-foreground transition-colors group-hover:text-foreground"><LocalizedText id={item.key} fallback={item.fallback} /></p>
                 <span className="mt-3 block h-px w-0 bg-foreground transition-all duration-300 group-hover:w-10" aria-hidden="true" />
               </div>
             ))}
           </div>
           <a href="#work" className="mt-6 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4">
-            Scroll to explore <span className="text-base leading-none transition-transform duration-300 hover:translate-y-1" aria-hidden="true">↓</span>
+            <LocalizedText id="home.scrollToExplore" fallback="Scroll to explore" /> <span className="text-base leading-none transition-transform duration-300 hover:translate-y-1" aria-hidden="true">↓</span>
           </a>
         </div>
       </section>
@@ -208,7 +210,7 @@ export default function IndexPage() {
                 <SkillIcon className="mt-0.5 size-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" aria-hidden="true" />
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-foreground">{skill.name}</p>
-                  <p className="mt-0.5 text-xs leading-5 text-muted-foreground">{skill.description}</p>
+                  <LocalizedValue values={skillTranslations[skill.name]} fallback={skill.description} as="p" className="mt-0.5 text-xs leading-5 text-muted-foreground" />
                 </div>
               </div>
             );
@@ -236,32 +238,35 @@ export default function IndexPage() {
         <div className="mt-12 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
           <div>
             <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Certifications
+              <LocalizedText id="home.certifications" fallback="Certifications" />
             </h3>
             <ul className="mt-5 space-y-4">
-              {certifications.map((certification) => (
-                <li
-                  key={certification.name}
-                  className="flex items-start gap-3 border-b border-border/60 pb-4"
-                >
-                  <Icons.check className="mt-1 size-4 shrink-0 text-foreground" aria-hidden="true" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{certification.name}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {certification.issuer} · {certification.date}
-                    </p>
-                    <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                      {certification.credential}
-                    </p>
-                  </div>
-                </li>
-              ))}
+              {certifications.map((certification) => {
+                const copy = certificationTranslations[certification.name];
+                return (
+                  <li
+                    key={certification.name}
+                    className="flex items-start gap-3 border-b border-border/60 pb-4"
+                  >
+                    <Icons.check className="mt-1 size-4 shrink-0 text-foreground" aria-hidden="true" />
+                    <div>
+                      <p className="text-sm font-medium text-foreground"><LocalizedValue values={copy?.name} fallback={certification.name} /></p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {certification.issuer} · <LocalizedValue values={copy?.date} fallback={certification.date} />
+                      </p>
+                      <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                        <LocalizedValue values={copy?.credential} fallback={certification.credential} />
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
           <div>
             <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Languages
+              <LocalizedText id="home.languages" fallback="Languages" />
             </h3>
             <ul className="mt-5 space-y-4">
               {spokenLanguages.map((language) => (
@@ -269,14 +274,13 @@ export default function IndexPage() {
                   key={language.name}
                   className="flex items-center justify-between border-b border-border/60 pb-3 text-sm"
                 >
-                  <span className="font-medium text-foreground">{language.name}</span>
-                  <span className="text-muted-foreground">{language.level}</span>
+                  <span className="font-medium text-foreground"><LocalizedText id={language.nameKey} fallback={language.name} /></span>
+                  <span className="text-muted-foreground"><LocalizedText id={language.levelKey} fallback={language.level} /></span>
                 </li>
               ))}
             </ul>
             <p className="mt-5 text-xs leading-6 text-muted-foreground">
-              Comfortable working in English across international teams, and in French for
-              client-facing projects in Tunisia and France.
+              <LocalizedText id="home.languageNote" fallback="Comfortable working in English across international teams, and in French for client-facing projects in Tunisia and France." />
             </p>
           </div>
         </div>

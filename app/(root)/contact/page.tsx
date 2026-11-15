@@ -82,7 +82,7 @@ export default function ContactPage() {
                           {channel.label}
                         </span>
                         <span className="block break-words text-sm text-foreground">
-                          {channel.value}
+                          {channel.label === "WhatsApp" ? <LocalizedText id="contact.whatsappValue" fallback={channel.value} /> : channel.value}
                         </span>
                       </span>
                     </Link>
@@ -96,7 +96,7 @@ export default function ContactPage() {
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
               <LocalizedText id="contact.openTo" fallback="Open to" />
             </p>
-            <p className="mt-3 text-base leading-7">{siteConfig.availability}.</p>
+            <p className="mt-3 text-base leading-7"><LocalizedText id="site.availability" fallback={siteConfig.availability} />.</p>
           </div>
 
           <div>

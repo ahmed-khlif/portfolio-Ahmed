@@ -12,36 +12,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+const flagSources = {
+  gb: "https://cdn-icons-png.flaticon.com/512/9193/9193350.png",
+  fr: "https://cdn-icons-png.flaticon.com/512/206/206657.png",
+  tn: "https://cdn-icons-png.flaticon.com/512/5975/5975682.png",
+} as const;
+
 function FlagIcon({ country }: { country: "gb" | "fr" | "tn" }) {
-  if (country === "fr") {
-    return (
-      <svg viewBox="0 0 24 16" className="size-5 shrink-0 overflow-hidden rounded-[3px] shadow-sm" aria-hidden="true">
-        <path fill="#1b3f8f" d="M0 0h8v16H0z" />
-        <path fill="#fff" d="M8 0h8v16H8z" />
-        <path fill="#ed2939" d="M16 0h8v16h-8z" />
-      </svg>
-    );
-  }
-
-  if (country === "tn") {
-    return (
-      <svg viewBox="0 0 24 16" className="size-5 shrink-0 overflow-hidden rounded-[3px] shadow-sm" aria-hidden="true">
-        <rect width="24" height="16" rx="2" fill="#e70013" />
-        <circle cx="12" cy="8" r="4.35" fill="#fff" />
-        <path fill="#e70013" d="M14.55 4.55a3.45 3.45 0 1 0 0 6.9a2.65 2.65 0 1 1 0-6.9Z" />
-        <path fill="#e70013" d="m15.65 6.45.42 1.02 1.1.08-.84.7.26 1.08-.94-.56-.95.56.25-1.08-.84-.7 1.1-.08.44-1.02Z" />
-      </svg>
-    );
-  }
-
   return (
-    <svg viewBox="0 0 24 16" className="size-5 shrink-0 overflow-hidden rounded-[3px] shadow-sm" aria-hidden="true">
-      <rect width="24" height="16" rx="2" fill="#012169" />
-      <path d="M0 0 24 16M24 0 0 16" stroke="#fff" strokeWidth="4" />
-      <path d="M0 0 24 16M24 0 0 16" stroke="#c8102e" strokeWidth="1.8" />
-      <path d="M12 0v16M0 8h24" stroke="#fff" strokeWidth="5" />
-      <path d="M12 0v16M0 8h24" stroke="#c8102e" strokeWidth="2.5" />
-    </svg>
+    <span className="grid size-5 shrink-0 place-items-center overflow-hidden rounded-[4px] bg-muted/50 shadow-sm" aria-hidden="true">
+      <img
+        src={flagSources[country]}
+        alt=""
+        width={20}
+        height={20}
+        loading="eager"
+        referrerPolicy="no-referrer"
+        className="size-full object-contain"
+      />
+    </span>
   );
 }
 

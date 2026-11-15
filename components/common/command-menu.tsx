@@ -91,7 +91,7 @@ export function CommandMenu() {
                 </Link>
               )) : <p className="px-3 py-8 text-center text-sm text-muted-foreground">{t("command.noMatchingPages")}</p>}
             </div>
-            <div className="border-t border-border px-4 py-2 text-[11px] text-muted-foreground">Use ↑ ↓ to navigate · Enter to open · Esc to close</div>
+            <div className="border-t border-border px-4 py-2 text-[11px] text-muted-foreground">{t("command.keyboardHint")}</div>
           </div>
         </div>
       )}

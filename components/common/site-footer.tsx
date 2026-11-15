@@ -28,7 +28,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               {siteConfig.authorName}
             </Link>
             <p className="max-w-sm text-sm leading-6 text-muted-foreground">
-              {t("footer.description", { role: siteConfig.role, location: siteConfig.location })}
+              {t("footer.description", { role: t("site.role"), location: siteConfig.location })}
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               {SocialLinks.map((item) => (
@@ -46,7 +46,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             </div>
           </div>
 
-          <nav aria-label="Footer navigation" className="space-y-3">
+          <nav aria-label={t("common.footerNavigation")} className="space-y-3">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{t("common.explore")}</p>
             <ul className="space-y-2 text-sm">
               {navItems.map((item: { title: string; href: string }) => (
@@ -94,7 +94,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               </p>
               <div className="h-[152px] overflow-hidden rounded-xl border border-border bg-[#121212]">
                 <iframe
-                  title="Spotify playlist"
+                  title={t("common.spotifyPlaylist")}
                   src="https://open.spotify.com/embed/playlist/5HEFQpaI5smcqLBYJhq4pv?utm_source=generator&theme=0"
                   width="100%"
                   height="152"
@@ -104,12 +104,20 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
                 />
               </div>
             </div>
+            <a
+              href="https://www.flaticon.com/free-icons/flag"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex pt-1 text-[10px] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            >
+              {t("footer.flagCredit")}
+            </a>
           </div>
         </div>
 
         <div className="flex flex-col gap-4 border-t border-border/60 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} {siteConfig.authorName}. All rights reserved.
+            © {new Date().getFullYear()} {siteConfig.authorName}. {t("footer.rights")}
           </p>
           <button
             type="button"
@@ -117,7 +125,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-10 w-fit rounded-full px-4")}
             aria-label={t("common.backToTop")}
           >
-            Back to top ↑
+            {t("common.backToTop")} ↑
           </button>
         </div>
       </div>

@@ -42,8 +42,9 @@ export function ModeToggle() {
   // server HTML matches the first client render. next-themes only knows
   // the real theme after hydration (it reads localStorage/media query),
   // so using `theme` directly in aria-label/title causes a hydration mismatch.
-  const label = mounted ? `Change theme. Current theme: ${theme ?? "system"}` : "Change theme";
-  const title = mounted ? `Theme: ${theme ?? "system"}` : "Theme";
+  const currentTheme = theme ? t(`theme.${theme}`) : t("theme.system");
+  const label = mounted ? `${t("theme.change")}. ${t("theme.current")}: ${currentTheme}` : t("theme.change");
+  const title = mounted ? `${t("theme.title")}: ${currentTheme}` : t("theme.title");
 
   return (
     <DropdownMenu>
@@ -57,7 +58,7 @@ export function ModeToggle() {
         >
           <Icons.sun className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Icons.moon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Open theme menu</span>
+          <span className="sr-only">{t("theme.openMenu")}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" data-navigation-portal>

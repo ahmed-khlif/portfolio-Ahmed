@@ -3,13 +3,17 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { Icons } from "@/components/common/icons";
-import ProjectDescription from "@/components/projects/project-description";
+import { LocalizedDate } from "@/components/common/localized-date";
+import { LocalizedText } from "@/components/common/localized-text";
+import { LocalizedValue } from "@/components/common/localized-value";
+import { LocalizedProjectDescription } from "@/components/projects/localized-project-description";
 import { buttonVariants } from "@/components/ui/button";
 import ChipContainer from "@/components/ui/chip-container";
 import CustomTooltip from "@/components/ui/custom-tooltip";
+import { projectTranslations } from "@/config/content-translations";
 import { Projects } from "@/config/projects";
 import { siteConfig } from "@/config/site";
-import { cn, formatDateFromObj } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import profileImg from "@/public/profile-img.jpg";
 
 interface ProjectPageProps {
@@ -27,6 +31,13 @@ export default async function Project({ params }: ProjectPageProps) {
     redirect("/projects");
   }
 
+  const projectCopy = projectTranslations[project.id];
+  const typeKey = project.type === "Professional"
+    ? "common.typeProfessional"
+    : project.type === "Freelance"
+      ? "common.typeFreelance"
+      : "common.typePersonal";
+
   return (
     <article className="container relative max-w-5xl py-8 lg:py-14">
       <Link
@@ -37,17 +48,17 @@ export default async function Project({ params }: ProjectPageProps) {
         )}
       >
         <Icons.chevronLeft className="mr-2 h-4 w-4" />
-        All Projects
+        <LocalizedText id="common.allProjects" fallback="All projects" />
       </Link>
       <div className="grid gap-8 border-b border-border pb-10 lg:grid-cols-[1fr_16rem] lg:gap-16">
         <div>
-        <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{project.type} / Case study</p>
-        {project.role ? <p className="mb-4 text-sm font-medium text-foreground">{project.role}</p> : null}
+        <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground"><LocalizedText id={typeKey} fallback={project.type} /> / <LocalizedText id="common.caseStudy" fallback="Case study" /></p>
+        {project.role ? <p className="mb-4 text-sm font-medium text-foreground"><LocalizedValue values={projectCopy?.role} fallback={project.role} /></p> : null}
         <time
           dateTime={Date.now().toString()}
           className="block font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground"
         >
-          {formatDateFromObj(project.startDate)}
+          <LocalizedDate value={project.startDate} />
         </time>
         <h1 className="flex items-center justify-between mt-2 font-heading text-4xl leading-tight lg:text-5xl">
           {project.companyName}
@@ -92,9 +103,9 @@ export default async function Project({ params }: ProjectPageProps) {
         </div>
         </div>
         <aside className="flex flex-col justify-end gap-5 border-l border-border pl-6">
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Built with</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground"><LocalizedText id="common.builtWith" fallback="Built with" /></p>
           <ChipContainer textArr={project.techStack.slice(0, 4)} />
-          <p className="text-sm leading-6 text-muted-foreground">A focused case study on the decisions, systems, and details behind this work.</p>
+          <p className="text-sm leading-6 text-muted-foreground"><LocalizedText id="project.focusedCaseStudy" fallback="A focused case study on the decisions, systems, and details behind this work." /></p>
         </aside>
       </div>
 
@@ -112,13 +123,13 @@ export default async function Project({ params }: ProjectPageProps) {
           aria-label="Project highlights"
           className="mb-10 grid gap-4 border-y border-border py-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {project.metrics.map((metric) => (
+          {project.metrics.map((metric, metricIndex) => (
             <p
               key={metric}
               className="flex items-start gap-2 text-sm leading-6 text-muted-foreground"
             >
               <Icons.check className="mt-0.5 size-4 shrink-0 text-foreground" />
-              {metric}
+              <LocalizedValue values={projectCopy?.metrics?.[metricIndex]} fallback={metric} />
             </p>
           ))}
         </section>
@@ -126,17 +137,18 @@ export default async function Project({ params }: ProjectPageProps) {
 
       <div className="mb-7 ">
         <h2 className="inline-block font-heading text-3xl leading-tight lg:text-3xl mb-2">
-          Tech Stack
+          <LocalizedText id="project.techStack" fallback="Tech stack" />
         </h2>
         <ChipContainer textArr={project.techStack} />
       </div>
 
       <div className="mb-7 ">
         <h2 className="inline-block font-heading text-3xl leading-tight lg:text-3xl mb-2">
-          Description
+          <LocalizedText id="common.description" fallback="Description" />
         </h2>
         {/* {<project.descriptionComponent />} */}
-        <ProjectDescription
+        <LocalizedProjectDescription
+          projectId={project.id}
           paragraphs={project.descriptionDetails.paragraphs}
           bullets={project.descriptionDetails.bullets}
         />
@@ -144,15 +156,15 @@ export default async function Project({ params }: ProjectPageProps) {
 
       <div className="mb-7 ">
         <h2 className="inline-block font-heading text-3xl leading-tight lg:text-3xl mb-5">
-          Page Info
+          <LocalizedText id="common.pageInfo" fallback="Page information" />
         </h2>
         {project.pagesInfoArr.map((page, ind) => (
           <div key={ind}>
             <h3 className="flex items-center font-heading text-xl leading-tight lg:text-xl mt-3">
-              <Icons.star className="h-5 w-5 mr-2" /> {page.title}
+              <Icons.star className="h-5 w-5 mr-2" /> <LocalizedValue values={projectCopy?.pages?.[ind]?.title} fallback={page.title} />
             </h3>
             <div>
-              <p>{page.description}</p>
+              <p><LocalizedValue values={projectCopy?.pages?.[ind]?.description} fallback={page.description ?? ""} /></p>
               {page.imgArr.map((img, ind) => (
                 <Image
                   src={img}
@@ -176,7 +188,7 @@ export default async function Project({ params }: ProjectPageProps) {
           className={cn(buttonVariants({ variant: "ghost" }))}
         >
           <Icons.chevronLeft className="mr-2 h-4 w-4" />
-          All Projects
+          <LocalizedText id="common.allProjects" fallback="All projects" />
         </Link>
       </div>
     </article>

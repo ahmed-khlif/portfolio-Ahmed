@@ -5,20 +5,21 @@ import Link from "next/link";
 
 import { AnimatedSection } from "@/components/common/animated-section";
 import { Icons } from "@/components/common/icons";
+import { LocalizedDuration } from "@/components/common/localized-date";
 import { useLanguage } from "@/components/common/language-provider";
+import { experienceTranslations, resolveLocalized } from "@/config/content-translations";
 import {
   skillHoverFallback,
   skillHoverStyles,
 } from "@/components/skills/skill-hover";
 import { ExperienceInterface } from "@/config/experience";
-import { formatDuration } from "@/lib/utils";
 
 interface TimelineProps {
   experiences: ExperienceInterface[];
 }
 
 const Timeline: React.FC<TimelineProps> = ({ experiences }) => {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   // Sort experiences by date (most recent first)
   const sortedExperiences = [...experiences].sort((a, b) => {
     const dateA = a.endDate === "Present" ? new Date() : a.endDate;
@@ -30,6 +31,7 @@ const Timeline: React.FC<TimelineProps> = ({ experiences }) => {
     <ol className="mx-auto flex w-full max-w-4xl flex-col gap-5 pb-24 sm:gap-6">
       {sortedExperiences.map((experience, index) => {
         const isCurrent = experience.endDate === "Present";
+        const copy = experienceTranslations[experience.id];
         return (
           <AnimatedSection
             key={experience.id}
@@ -65,14 +67,14 @@ const Timeline: React.FC<TimelineProps> = ({ experiences }) => {
                   <div className="min-w-0 flex-1 pr-10 sm:pr-12">
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                       <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                        {formatDuration(experience.startDate, experience.endDate)}
+                        <LocalizedDuration startDate={experience.startDate} endDate={experience.endDate} />
                       </p>
                       <span
                         aria-hidden
                         className="hidden h-1 w-1 rounded-full bg-border sm:inline-block"
                       />
                       <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                        {experience.location}
+                        {resolveLocalized(copy?.location, language, experience.location)}
                       </p>
                       {isCurrent && (
                         <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
@@ -86,7 +88,7 @@ const Timeline: React.FC<TimelineProps> = ({ experiences }) => {
                     </div>
 
                     <h3 className="mt-2.5 text-xl font-semibold leading-snug tracking-tight text-foreground sm:text-2xl">
-                      {experience.position}
+                      {resolveLocalized(copy?.position, language, experience.position)}
                     </h3>
 
                     <p className="mt-1.5 flex items-center gap-1.5 text-[15px] font-medium text-foreground/90">
@@ -97,7 +99,7 @@ const Timeline: React.FC<TimelineProps> = ({ experiences }) => {
                     </p>
 
                     <p className="mt-2.5 max-w-3xl text-[15px] leading-relaxed text-muted-foreground">
-                      {experience.description[0]}
+                      {resolveLocalized(copy?.description?.[0], language, experience.description[0])}
                     </p>
                     {/* skills */}
                     <div className="mt-4 flex flex-wrap gap-2">

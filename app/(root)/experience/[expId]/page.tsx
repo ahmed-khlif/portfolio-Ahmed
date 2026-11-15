@@ -6,13 +6,16 @@ import { redirect } from "next/navigation";
 import { AnimatedSection } from "@/components/common/animated-section";
 import { ClientPageWrapper } from "@/components/common/client-page-wrapper";
 import { Icons } from "@/components/common/icons";
+import { LocalizedDuration } from "@/components/common/localized-date";
+import { LocalizedText } from "@/components/common/localized-text";
+import { LocalizedValue } from "@/components/common/localized-value";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import ChipContainer from "@/components/ui/chip-container";
 import { ResponsiveTabs } from "@/components/ui/responsive-tabs";
 import { experiences } from "@/config/experience";
+import { experienceTranslations } from "@/config/content-translations";
 import { siteConfig } from "@/config/site";
-import { formatDuration } from "@/lib/utils";
 
 interface ExperienceDetailPageProps {
   params: Promise<{
@@ -51,15 +54,17 @@ export default async function ExperienceDetailPage({
     redirect("/experience");
   }
 
+  const experienceCopy = experienceTranslations[experience.id];
+
   const tabItems = [
     {
       value: "summary",
-      label: "Summary",
+      label: <LocalizedText id="common.summary" fallback="Summary" />,
       content: (
         <AnimatedSection delay={0.3}>
           <div>
             <h3 className="mb-5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-              Role Summary
+              <LocalizedText id="common.roleSummary" fallback="Role summary" />
             </h3>
             <ul className="space-y-3">
               {experience.description.map((desc, idx) => (
@@ -68,7 +73,7 @@ export default async function ExperienceDetailPage({
                   className="text-base leading-relaxed flex items-start gap-3"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  {desc}
+                  <LocalizedValue values={experienceCopy?.description?.[idx]} fallback={desc} />
                 </li>
               ))}
             </ul>
@@ -78,12 +83,12 @@ export default async function ExperienceDetailPage({
     },
     {
       value: "achievements",
-      label: "Achievements",
+      label: <LocalizedText id="common.achievements" fallback="Achievements" />,
       content: (
         <AnimatedSection delay={0.3}>
           <div>
             <h3 className="mb-5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-              Key Achievements
+              <LocalizedText id="common.keyAchievements" fallback="Key achievements" />
             </h3>
             <ul className="space-y-3">
               {experience.achievements.map((achievement, idx) => (
@@ -92,7 +97,7 @@ export default async function ExperienceDetailPage({
                   className="text-base leading-relaxed flex items-start gap-3"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  {achievement}
+                  <LocalizedValue values={experienceCopy?.achievements?.[idx]} fallback={achievement} />
                 </li>
               ))}
             </ul>
@@ -102,17 +107,16 @@ export default async function ExperienceDetailPage({
     },
     {
       value: "skills",
-      label: "Skills",
+      label: <LocalizedText id="nav.skills" fallback="Skills" />,
       content: (
         <AnimatedSection delay={0.3}>
           <div>
             <h3 className="mb-5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-              Technologies & Skills
+              <LocalizedText id="common.technologiesSkills" fallback="Technologies & skills" />
             </h3>
             <ChipContainer textArr={experience.skills} />
             <p className="mt-4 text-sm text-muted-foreground">
-              These are the primary technologies and skills utilized during my
-              time at {experience.company}.
+              <LocalizedText id="common.skillsUsed" fallback={`These are the primary technologies and skills used during this role at ${experience.company}.`} />
             </p>
           </div>
         </AnimatedSection>
@@ -127,7 +131,7 @@ export default async function ExperienceDetailPage({
           <Button variant="ghost" size="sm" className="mb-4" asChild>
             <Link href="/experience">
               <Icons.chevronLeft className="mr-2 h-4 w-4" />
-              Back to Experience
+              <LocalizedText id="common.backToExperience" fallback="Back to experience" />
             </Link>
           </Button>
         </AnimatedSection>
@@ -136,7 +140,7 @@ export default async function ExperienceDetailPage({
           <Card className="overflow-hidden rounded-none border border-border bg-card shadow-none transition-colors duration-300">
             <CardHeader className="border-b border-border p-6 pb-8 sm:p-8">
               <div className="flex flex-col gap-8">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Selected role / {experience.company}</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground"><LocalizedText id="experience.selectedRole" fallback="Selected role" /> / {experience.company}</p>
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
                   <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-start">
                     {experience.logo && (
@@ -152,7 +156,7 @@ export default async function ExperienceDetailPage({
                     )}
                     <div className="flex-1 text-center sm:text-left">
                       <h1 className="text-center text-3xl font-semibold tracking-[-0.04em] sm:text-left sm:text-4xl">
-                        {experience.position}
+                          <LocalizedValue values={experienceCopy?.position} fallback={experience.position} />
                       </h1>
                       <div className="mt-3 flex items-center justify-center gap-2 sm:justify-start">
                         <span className="text-md font-medium text-muted-foreground">
@@ -169,15 +173,12 @@ export default async function ExperienceDetailPage({
                           </a>
                         )}
                       </div>
-                      <p className="mt-2 text-sm text-muted-foreground">{experience.location}</p>
+                      <p className="mt-2 text-sm text-muted-foreground"><LocalizedValue values={experienceCopy?.location} fallback={experience.location} /></p>
                     </div>
                   </div>
                   <div className="flex justify-center sm:justify-end">
                     <span className="inline-flex items-center border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                      {formatDuration(
-                        experience.startDate,
-                        experience.endDate
-                      )}
+                      <LocalizedDuration startDate={experience.startDate} endDate={experience.endDate} />
                     </span>
                   </div>
                 </div>
@@ -194,7 +195,7 @@ export default async function ExperienceDetailPage({
           <Button variant="outline" asChild>
             <Link href="/experience">
               <Icons.chevronLeft className="mr-2 h-4 w-4" />
-              View All Experience
+              <LocalizedText id="common.viewAllExperience" fallback="View all experience" />
             </Link>
           </Button>
         </AnimatedSection>

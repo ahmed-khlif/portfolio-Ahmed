@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Projects } from "@/config/projects";
+import { categoryTranslations, resolveLocalized } from "@/config/content-translations";
 
 const types = Array.from(new Set(Projects.map((project) => project.type))).sort();
 const categories = Array.from(new Set(Projects.flatMap((project) => project.category))).sort();
@@ -23,7 +24,7 @@ const categories = Array.from(new Set(Projects.flatMap((project) => project.cate
 type FilterValue = "all" | (typeof types)[number];
 
 export function ProjectFilters() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [type, setType] = useState<FilterValue>("all");
   const [category, setCategory] = useState<string | null>(null);
   const [query, setQuery] = useState("");
@@ -41,6 +42,7 @@ export function ProjectFilters() {
   );
 
   const hasFilters = type !== "all" || category !== null || query.trim() !== "";
+  const typeLabel = (value: string) => t(value === "Professional" ? "common.typeProfessional" : value === "Freelance" ? "common.typeFreelance" : "common.typePersonal");
 
   return (
     <div className="flex flex-col gap-6">
@@ -82,7 +84,7 @@ export function ProjectFilters() {
               className="rounded-full"
               onClick={() => setType(option)}
             >
-              {option}
+              {typeLabel(option)}
             </Button>
           ))}
 
@@ -90,7 +92,7 @@ export function ProjectFilters() {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="rounded-full">
                 <ListFilter data-icon="inline-start" />
-                {category ?? t("filters.category")}
+                {category ? resolveLocalized(categoryTranslations[category], language, category) : t("filters.category")}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
@@ -102,7 +104,7 @@ export function ProjectFilters() {
                   checked={category === option}
                   onCheckedChange={(checked) => setCategory(checked ? option : null)}
                 >
-                  {option}
+                  {resolveLocalized(categoryTranslations[option], language, option)}
                 </DropdownMenuCheckboxItem>
               ))}
             </DropdownMenuContent>

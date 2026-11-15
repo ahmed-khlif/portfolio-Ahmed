@@ -8,8 +8,12 @@ import { AnimatedSection } from "@/components/common/animated-section";
 import { AnimatedText } from "@/components/common/animated-text";
 import { ClientPageWrapper } from "@/components/common/client-page-wrapper";
 import { Icons } from "@/components/common/icons";
+import { LocalizedDate } from "@/components/common/localized-date";
+import { LocalizedText } from "@/components/common/localized-text";
+import { LocalizedValue } from "@/components/common/localized-value";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
+import { blogTranslations } from "@/config/content-translations";
 import { getAllBlogSlugs, getBlogPost } from "@/lib/blogs";
 import { cn } from "@/lib/utils";
 
@@ -88,13 +92,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-
   const isoDate = new Date(post.date).toISOString();
+  const blogCopy = blogTranslations[post.slug];
   const ogImage = post.coverImage
     ? `${siteConfig.url}${post.coverImage}`
     : siteConfig.ogImage;
@@ -186,7 +185,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   href="/"
                   className="hover:text-foreground transition-colors"
                 >
-                  Home
+                  <LocalizedText id="nav.home" fallback="Home" />
                 </Link>
               </li>
               <li aria-hidden="true">
@@ -197,7 +196,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   href="/blogs"
                   className="hover:text-foreground transition-colors"
                 >
-                  Blogs
+                  <LocalizedText id="nav.notes" fallback="Blogs" />
                 </Link>
               </li>
               <li aria-hidden="true">
@@ -207,7 +206,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 className="text-foreground font-medium truncate max-w-[200px] sm:max-w-[300px]"
                 aria-current="page"
               >
-                {post.title}
+                <LocalizedValue values={blogCopy?.title} fallback={post.title} />
               </li>
             </ol>
           </nav>
@@ -230,12 +229,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             {/* H1 title — single h1 per page */}
             <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl leading-tight text-foreground mb-4">
-              {post.title}
+              <LocalizedValue values={blogCopy?.title} fallback={post.title} />
             </h1>
 
             {/* Description as lead paragraph */}
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              {post.description}
+              <LocalizedValue values={blogCopy?.description} fallback={post.description} />
             </p>
 
             {/* Author + date + reading time */}
@@ -252,12 +251,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </address>
               <time dateTime={isoDate} className="flex items-center gap-1.5">
                 <Icons.calendar className="w-4 h-4" />
-                {formattedDate}
+                <LocalizedDate value={post.date} />
               </time>
               {post.readingTime && (
                 <span className="flex items-center gap-1.5">
                   <Icons.clock className="w-4 h-4" />
-                  {post.readingTime} min read
+                  {post.readingTime} <LocalizedText id="blogs.minRead" fallback="min read" />
                 </span>
               )}
             </div>
@@ -303,10 +302,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               )}
             >
               <Icons.chevronLeft className="w-4 h-4" />
-              All posts
+              <LocalizedText id="common.allPosts" fallback="All posts" />
             </Link>
             <div className="text-sm text-muted-foreground">
-              Written by{" "}
+              <LocalizedText id="common.writtenBy" fallback="Written by" />{" "}
               <Link
                 href={siteConfig.links.github}
                 target="_blank"

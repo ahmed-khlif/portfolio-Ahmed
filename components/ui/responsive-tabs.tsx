@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 interface TabItem {
   value: string;
-  label: string;
+  label: React.ReactNode;
   content: React.ReactNode;
 }
 

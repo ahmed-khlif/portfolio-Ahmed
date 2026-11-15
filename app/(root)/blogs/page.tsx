@@ -3,6 +3,7 @@ import Script from "next/script";
 
 import BlogCard from "@/components/blogs/blog-card";
 import { AnimatedSection } from "@/components/common/animated-section";
+import { LocalizedText } from "@/components/common/localized-text";
 import PageContainer from "@/components/common/page-container";
 import { pagesConfig } from "@/config/pages";
 import { siteConfig } from "@/config/site";
@@ -127,10 +128,10 @@ export default function BlogsPage() {
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <p className="text-4xl mb-4">✍️</p>
             <h3 className="text-xl font-semibold text-foreground mb-2">
-              No posts yet
+              <LocalizedText id="blogs.noPosts" fallback="No posts yet" />
             </h3>
             <p className="text-muted-foreground text-sm">
-              Check back soon — posts are coming.
+              <LocalizedText id="blogs.comingSoon" fallback="Check back soon — posts are coming." />
             </p>
           </div>
         ) : (
