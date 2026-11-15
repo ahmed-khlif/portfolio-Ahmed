@@ -54,15 +54,10 @@ export function MainNav({ items, children }: MainNavProps) {
 
     document.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("keydown", onKeyDown);
-    const previousOverflow = document.body.style.overflow;
-    if (window.matchMedia("(max-width: 767px)").matches) {
-      document.body.style.overflow = "hidden";
-    }
 
     return () => {
       document.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = previousOverflow;
     };
   }, [showMobileMenu]);
 
