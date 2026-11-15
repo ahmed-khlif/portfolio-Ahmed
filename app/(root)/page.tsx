@@ -1,11 +1,11 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 
 import { AnimatedSection } from "@/components/common/animated-section";
 import { AnimatedText } from "@/components/common/animated-text";
 import { ClientPageWrapper } from "@/components/common/client-page-wrapper";
-import { HeroVisual } from "@/components/common/hero-visual";
 import { Icons } from "@/components/common/icons";
 import { ShareProfileButton } from "@/components/common/share-profile-button";
 import { EducationTimeline } from "@/components/education/education-timeline";
@@ -142,14 +142,25 @@ export default function IndexPage() {
             </AnimatedText>
           </div>
 
-          <AnimatedSection direction="up" delay={0.25}>
-            <HeroVisual
-              src={profileImg}
-              alt={`Portrait of ${siteConfig.authorName}`}
-              availability={siteConfig.availability}
-              location={siteConfig.location}
-              timezone={siteConfig.timezone}
-            />
+          <AnimatedSection direction="up" delay={0.25} className="group relative lg:pt-10">
+            <div className="absolute -inset-3 -z-10 border border-border/50 transition-transform duration-700 ease-out group-hover:rotate-3 group-hover:scale-105" aria-hidden="true" />
+            <div className="border border-border bg-muted/20 p-2 transition-transform duration-700 ease-out group-hover:-translate-y-1">
+              <Image
+                src={profileImg}
+                alt={`Portrait of ${siteConfig.authorName}`}
+                priority
+                className="aspect-[4/5] w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
+                sizes="(min-width: 1024px) 20rem, 90vw"
+              />
+            </div>
+            <div className="mt-4 flex items-start justify-between gap-4 text-xs text-muted-foreground">
+              <span>Currently</span>
+              <span className="max-w-[10rem] text-right text-foreground">{siteConfig.availability}</span>
+            </div>
+            <div className="mt-3 flex items-start justify-between gap-4 text-xs text-muted-foreground">
+              <span>Based in</span>
+              <span className="text-right text-foreground">{siteConfig.location} · {siteConfig.timezone}</span>
+            </div>
           </AnimatedSection>
         </div>
 
