@@ -58,7 +58,7 @@ export function ModeToggle() {
           <span className="sr-only">Open theme menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" data-navigation-portal>
         {themes.map((item) => {
           const ThemeIcon = item.icon;
           return (

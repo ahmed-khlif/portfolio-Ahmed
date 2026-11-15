@@ -44,6 +44,9 @@ export function MainNav({ items, children }: MainNavProps) {
     if (!showMobileMenu) return;
 
     const onPointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (target instanceof Element && target.closest("[data-navigation-portal]")) return;
+
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setShowMobileMenu(false);
       }
